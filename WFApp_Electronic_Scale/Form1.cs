@@ -158,9 +158,6 @@ namespace WFApp_Electronic_Scale
                 // Log("BytesToRead" + port.BytesToRead);
                 // Log("ReceivedBytesThreshold" + port.ReceivedBytesThreshold); // 1 يعني أن الحدث DataReceived سيتم إطلاقه بمجرد استلام أول بايت من البيانات
                 // Log("ReadTimeout" + port.ReadTimeout); // -1  انتظر للأبد حتى تصلك البيانات
-
-
-
             }
 
             catch (Exception EX)
