@@ -17,6 +17,7 @@ namespace WFApp_Electronic_Scale
     public partial class Form1 : Form
     {
         private SerialPort port;
+        private DatabaseManager dbManager;
 
         //SerialPort port = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
 
@@ -26,9 +27,27 @@ namespace WFApp_Electronic_Scale
         {
             InitializeComponent();
             InitializeDefaults();
+            btnTestLogin.Visible = false;
+            CheckUserPermissions();
             port = new SerialPort();
             port.DataReceived += Port_DataReceived;
-
+            
+            // تحميل إعدادات قاعدة البيانات
+            DatabaseSettings.LoadSettings();
+            
+            // تهيئة مدير قاعدة البيانات
+            dbManager = new DatabaseManager();
+            
+            // إنشاء قاعدة البيانات والجدول إذا لم تكن موجودة
+            if (dbManager.TestConnection())
+            {
+                dbManager.CreateDatabaseAndTable();
+                Log("تم الاتصال بقاعدة البيانات بنجاح");
+            }
+            else
+            {
+                Log("فشل في الاتصال بقاعدة البيانات");
+            }
         }
 
         private void InitializeDefaults()
@@ -208,10 +227,14 @@ namespace WFApp_Electronic_Scale
                 if (weight.Length >= 41)
                 {
                     char[] array = weight.ToCharArray(0, 41);
-                    if (array[0] == Convert.ToChar(2) /*&& (array[40] == Convert.ToChar(13) || array[40] == Convert.ToChar(3))*/)
+                    if (array[0] == Convert.ToChar(2) && (array[40] == Convert.ToChar(13) || array[40] == Convert.ToChar(3)))
                     {
                         ReadData = weight.Substring(26, 6);
                         txtWeight.Text = ReadData;
+                        
+                        // حفظ الوزن في قاعدة البيانات
+                        SaveWeightToDatabase(ReadData);
+                        
                         //ReadData = "";
                         port.Write(Convert.ToChar(4).ToString());
                     }
@@ -222,6 +245,49 @@ namespace WFApp_Electronic_Scale
             catch (Exception ex)
             {
                 return ex.Message.ToString();
+            }
+        }
+
+        private void SaveWeightToDatabase(string weightString)
+        {
+            try
+            {
+                // التحقق من إعداد الحفظ التلقائي
+                if (!DatabaseSettings.AutoSaveWeight)
+                {
+                    Log("الحفظ التلقائي معطل في الإعدادات");
+                    return;
+                }
+
+                // تحويل النص إلى رقم عشري
+                if (decimal.TryParse(weightString, out decimal weight))
+                {
+                    // الحصول على معلومات المستخدم الحالي
+                    string userId = LoginForm.CurrentUser?.UserId ?? "";
+                    string userName = LoginForm.CurrentUser?.Username ?? "";
+                    string city = cmbCities.SelectedItem?.ToString() ?? "";
+                    
+                    // حفظ الوزن في قاعدة البيانات
+                    if (dbManager.SaveWeight(weight, null, userId, userName, city))
+                    {
+                        if (DatabaseSettings.LogDatabaseOperations)
+                        {
+                            Log($"تم حفظ الوزن: {weight} {DatabaseSettings.DefaultWeightUnit} في قاعدة البيانات");
+                        }
+                    }
+                    else
+                    {
+                        Log("فشل في حفظ الوزن في قاعدة البيانات");
+                    }
+                }
+                else
+                {
+                    Log($"لا يمكن تحويل الوزن '{weightString}' إلى رقم");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log($"خطأ في حفظ الوزن: {ex.Message}");
             }
         }
 
@@ -264,6 +330,145 @@ namespace WFApp_Electronic_Scale
         {
             CityLoader cityLoader = new CityLoader(cmbCities);
             //await cityLoader.LoadCitiesAsync();
+
+            // اختبار بيانات المستخدمين (مؤقت للتصحيح)
+            //TestLogin.TestUserValidation();
+
+            // التحقق من نوع المستخدم وعرض/إخفاء زر إدارة المستخدمين
+            // CheckUserPermissions();
+        }
+
+        private void CheckUserPermissions()
+        {
+            try
+            {
+                string debugInfo = "";
+
+                if (LoginForm.CurrentUser != null)
+                {
+                    debugInfo = $"المستخدم الحالي: {LoginForm.CurrentUser.Username}\nالنوع: {LoginForm.CurrentUser.UserType}";
+
+                    // عرض معلومات المستخدم في العنوان (اختياري)
+                    this.Text = $"Serial Port Weight Reader - {LoginForm.CurrentUser.Username} ({LoginForm.CurrentUser.UserType})";
+
+                    // إظهار زر إدارة المستخدمين للمديرين فقط
+                    if (LoginForm.CurrentUser.UserType == "Admin")
+                    {
+                        btnManageUsers.Visible = true;
+                        btnManageUsers.Enabled = true;
+                        btnViewHistory.Visible = true;
+                        btnViewHistory.Enabled = true;
+                        btnStart.Enabled = true;
+                        cmbLetters.Enabled = true;
+                        cmbStopBits.Enabled = true;
+                        txtDataBits.Enabled = true;
+                        cmbParity.Enabled = true;
+                        txtBaudRate.Enabled = true;
+                        btnTestLogin.Visible = false;
+                        txtCommand.Enabled = true;
+                        btnSendTrigger.Enabled = true;
+                        txtPort.Enabled = true;
+                        cmbCities.Enabled = true;
+                        //debugInfo += "\n✅ تم إظهار زر إدارة المستخدمين";
+                    }
+                    else
+                    {
+                        btnManageUsers.Visible = false;
+                        btnManageUsers.Enabled = false;
+                        btnViewHistory.Visible = true;
+                        btnViewHistory.Enabled = true;
+                        txtPort.Enabled = false;
+                        btnStart.Enabled = true;
+                        cmbStopBits.Enabled = false;
+                        txtDataBits.Enabled = false;
+                        cmbParity.Enabled = false;
+                        txtBaudRate.Enabled = false;
+                        btnTestLogin.Visible = false;
+                        txtCommand.Visible = false;
+                        btnSendTrigger.Visible = false;
+                        cmbLetters.Visible = false;
+                        cmbCities.Visible = false;
+                        // debugInfo += "\n❌ تم إخفاء زر إدارة المستخدمين (ليس مدير)";
+                    }
+                }
+                else
+                {
+                    debugInfo = "❌ لا يوجد مستخدم مسجل دخوله";
+                    // إذا لم يكن هناك مستخدم مسجل دخوله، إخفاء الزر
+                    btnManageUsers.Visible = false;
+                    btnManageUsers.Enabled = false;
+                    // عرض معلومات التصحيح
+                    MessageBox.Show(debugInfo, "معلومات التصحيح", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                // في حالة حدوث خطأ، إخفاء الزر للسلامة
+                btnManageUsers.Visible = false;
+                btnManageUsers.Enabled = false;
+                Log($"خطأ في التحقق من صلاحيات المستخدم: {ex.Message}");
+                MessageBox.Show($"خطأ في التحقق من الصلاحيات: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnManageUsers_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // عرض معلومات المستخدم الحالي للتأكد
+                string userInfo = LoginForm.CurrentUser != null
+                    ? $"المستخدم الحالي: {LoginForm.CurrentUser.Username} - النوع: {LoginForm.CurrentUser.UserType}"
+                    : "لا يوجد مستخدم مسجل دخوله";
+
+                MessageBox.Show(userInfo, "معلومات المستخدم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                using (var userManagementForm = new UserManagementForm())
+                {
+                    userManagementForm.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"خطأ في فتح نافذة إدارة المستخدمين: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnTestLogin_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // اختبار بيانات المستخدمين
+                TestLogin.TestUserValidation();
+
+                // اختبار المستخدم الحالي
+                string currentUserInfo = LoginForm.CurrentUser != null
+                    ? $"المستخدم الحالي: {LoginForm.CurrentUser.Username} - النوع: {LoginForm.CurrentUser.UserType}"
+                    : "لا يوجد مستخدم مسجل دخوله";
+
+                MessageBox.Show(currentUserInfo, "اختبار المستخدم الحالي", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // إعادة التحقق من الصلاحيات
+                CheckUserPermissions();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"خطأ في اختبار تسجيل الدخول: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnViewHistory_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var historyForm = new WeightHistoryForm())
+                {
+                    historyForm.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"خطأ في فتح نافذة سجل الأوزان: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

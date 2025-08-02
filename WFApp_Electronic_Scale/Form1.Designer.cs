@@ -19,6 +19,9 @@ namespace WFApp_Electronic_Scale
         private System.Windows.Forms.TextBox txtWeight;
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.ComboBox cmbCities;
+        private System.Windows.Forms.Button btnManageUsers;
+        private System.Windows.Forms.Button btnTestLogin;
+        private System.Windows.Forms.Button btnViewHistory;
 
         protected override void Dispose(bool disposing)
         {
@@ -43,6 +46,9 @@ namespace WFApp_Electronic_Scale
             this.txtLog = new System.Windows.Forms.TextBox();
             this.cmbLetters = new System.Windows.Forms.ComboBox();
             this.cmbCities = new System.Windows.Forms.ComboBox();
+            this.btnManageUsers = new System.Windows.Forms.Button();
+            this.btnTestLogin = new System.Windows.Forms.Button();
+            this.btnViewHistory = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtPort
@@ -152,11 +158,47 @@ namespace WFApp_Electronic_Scale
             this.cmbCities.Size = new System.Drawing.Size(178, 24);
             this.cmbCities.TabIndex = 11;
             // 
+            // btnManageUsers
+            // 
+            this.btnManageUsers.Location = new System.Drawing.Point(854, 77);
+            this.btnManageUsers.Margin = new System.Windows.Forms.Padding(4);
+            this.btnManageUsers.Name = "btnManageUsers";
+            this.btnManageUsers.Size = new System.Drawing.Size(150, 32);
+            this.btnManageUsers.TabIndex = 12;
+            this.btnManageUsers.Text = "إدارة المستخدمين";
+            this.btnManageUsers.UseVisualStyleBackColor = true;
+            this.btnManageUsers.Click += new System.EventHandler(this.btnManageUsers_Click);
+            // 
+            // btnTestLogin
+            // 
+            this.btnTestLogin.Location = new System.Drawing.Point(1012, 79);
+            this.btnTestLogin.Margin = new System.Windows.Forms.Padding(4);
+            this.btnTestLogin.Name = "btnTestLogin";
+            this.btnTestLogin.Size = new System.Drawing.Size(96, 32);
+            this.btnTestLogin.TabIndex = 13;
+            this.btnTestLogin.Text = "اختبار تسجيل الدخول";
+            this.btnTestLogin.UseVisualStyleBackColor = true;
+            this.btnTestLogin.Click += new System.EventHandler(this.btnTestLogin_Click);
+            // 
+            // btnViewHistory
+            // 
+            this.btnViewHistory.Location = new System.Drawing.Point(1116, 79);
+            this.btnViewHistory.Margin = new System.Windows.Forms.Padding(4);
+            this.btnViewHistory.Name = "btnViewHistory";
+            this.btnViewHistory.Size = new System.Drawing.Size(150, 32);
+            this.btnViewHistory.TabIndex = 14;
+            this.btnViewHistory.Text = "سجل الأوزان";
+            this.btnViewHistory.UseVisualStyleBackColor = true;
+            this.btnViewHistory.Click += new System.EventHandler(this.btnViewHistory_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1277, 455);
+            this.ClientSize = new System.Drawing.Size(1285, 455);
+            this.Controls.Add(this.btnViewHistory);
+            this.Controls.Add(this.btnTestLogin);
+            this.Controls.Add(this.btnManageUsers);
             this.Controls.Add(this.cmbCities);
             this.Controls.Add(this.cmbLetters);
             this.Controls.Add(this.txtPort);

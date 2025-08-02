@@ -16,7 +16,21 @@ namespace WFApp_Electronic_Scale
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            
+            // عرض نموذج تسجيل الدخول أولاً
+            using (var loginForm = new LoginForm())
+            {
+                if (loginForm.ShowDialog() == DialogResult.OK)
+                {
+                    // إذا كان تسجيل الدخول ناجح، قم بتشغيل التطبيق الرئيسي
+                    Application.Run(new Form1());
+                }
+                else
+                {
+                    // إذا تم إلغاء تسجيل الدخول، أغلق التطبيق
+                    Application.Exit();
+                }
+            }
         }
     }
 }
