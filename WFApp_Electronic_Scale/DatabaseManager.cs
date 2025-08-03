@@ -35,6 +35,13 @@ namespace WFApp_Electronic_Scale
             }
         }
 
+
+        //todo 
+        //IP:1023268102
+        //port:8091
+        //op  post tag, weight and plaka
+        // get op
+        //metro framework
         public bool CreateDatabaseAndTable()
         {
             try
