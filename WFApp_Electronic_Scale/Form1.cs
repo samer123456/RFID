@@ -11,14 +11,23 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Threading;
 using System.Diagnostics;
+using MetroFramework;
+using MetroFramework.Forms;
+using MetroFramework.Controls;
+using MetroFramework.Components;
+using System.Drawing;
+using System.Threading.Tasks;
+
 
 namespace WFApp_Electronic_Scale
 {
-    public partial class Form1 : Form
+    public partial class Form1 : MetroForm
     {
+        private MetroStyleManager metroStyleManager;
+        private MetroButton btnSettings;
+        private MetroProgressSpinner metroProgressSpinner;
         private SerialPort port;
         private DatabaseManager dbManager;
-
         //SerialPort port = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
 
         string logFilePath = "log.txt";
@@ -27,17 +36,20 @@ namespace WFApp_Electronic_Scale
         {
             InitializeComponent();
             InitializeDefaults();
+            MetroStyleManager metroStyleManager = new MetroStyleManager(this.Container);
+            metroStyleManager.Theme = MetroThemeStyle.Light;
+            metroStyleManager.Style = MetroColorStyle.Blue;
             btnTestLogin.Visible = false;
             CheckUserPermissions();
             port = new SerialPort();
             port.DataReceived += Port_DataReceived;
-            
+
             // تحميل إعدادات قاعدة البيانات
             DatabaseSettings.LoadSettings();
-            
+
             // تهيئة مدير قاعدة البيانات
             dbManager = new DatabaseManager();
-            
+
             // إنشاء قاعدة البيانات والجدول إذا لم تكن موجودة
             if (dbManager.TestConnection())
             {
@@ -52,6 +64,8 @@ namespace WFApp_Electronic_Scale
 
         private void InitializeDefaults()
         {
+           
+
             cmbParity.Items.AddRange(Enum.GetNames(typeof(Parity)));
             cmbStopBits.Items.AddRange(Enum.GetNames(typeof(StopBits)));
 
@@ -231,10 +245,10 @@ namespace WFApp_Electronic_Scale
                     {
                         ReadData = weight.Substring(26, 6);
                         txtWeight.Text = ReadData;
-                        
+
                         // حفظ الوزن في قاعدة البيانات
                         SaveWeightToDatabase(ReadData);
-                        
+
                         //ReadData = "";
                         port.Write(Convert.ToChar(4).ToString());
                     }
@@ -266,7 +280,7 @@ namespace WFApp_Electronic_Scale
                     string userId = LoginForm.CurrentUser?.UserId ?? "";
                     string userName = LoginForm.CurrentUser?.Username ?? "";
                     string city = cmbCities.SelectedItem?.ToString() ?? "";
-                    
+
                     // حفظ الوزن في قاعدة البيانات
                     if (dbManager.SaveWeight(weight, null, userId, userName, city))
                     {
@@ -291,10 +305,30 @@ namespace WFApp_Electronic_Scale
             }
         }
 
+        //private void Log(string message)
+        //{
+        //    string logEntry = DateTime.Now + " - " + message + "\n";
+        //    txtLog.AppendText(logEntry + Environment.NewLine);
+        //    File.AppendAllText(logFilePath, logEntry);
+        //}
+
+      
         private void Log(string message)
         {
             string logEntry = DateTime.Now + " - " + message + "\n";
-            txtLog.AppendText(logEntry + Environment.NewLine);
+
+            // إضافة سطر جديد مع تمييز الأخطاء
+            if (message.Contains("Error") || message.Contains("خطأ") || message.Contains("فشل"))
+            {
+                txtLog.BackColor = Color.FromArgb(255, 230, 230);
+                txtLog.AppendText(logEntry, Color.Red);
+            }
+            else
+            {
+                txtLog.BackColor = Color.FromArgb(240, 240, 240);
+                txtLog.AppendText(logEntry, Color.Black);
+            }
+
             File.AppendAllText(logFilePath, logEntry);
         }
 
@@ -349,7 +383,7 @@ namespace WFApp_Electronic_Scale
                     debugInfo = $"المستخدم الحالي: {LoginForm.CurrentUser.Username}\nالنوع: {LoginForm.CurrentUser.UserType}";
 
                     // عرض معلومات المستخدم في العنوان (اختياري)
-                    this.Text = $"Serial Port Weight Reader - {LoginForm.CurrentUser.Username} ({LoginForm.CurrentUser.UserType})";
+                    this.Text = $"برنامج الميزان - {LoginForm.CurrentUser.Username} ({LoginForm.CurrentUser.UserType})";
 
                     // إظهار زر إدارة المستخدمين للمديرين فقط
                     if (LoginForm.CurrentUser.UserType == "Admin")
@@ -369,14 +403,18 @@ namespace WFApp_Electronic_Scale
                         btnSendTrigger.Enabled = true;
                         txtPort.Enabled = true;
                         cmbCities.Enabled = true;
+                        btnManageUsers.Style = MetroColorStyle.Orange;
+                        btnManageUsers.Theme = MetroThemeStyle.Light;
+                        btnManageUsers.BackColor = Color.FromArgb(70, 130, 180);
+
                         //debugInfo += "\n✅ تم إظهار زر إدارة المستخدمين";
                     }
                     else
                     {
                         btnManageUsers.Visible = false;
                         btnManageUsers.Enabled = false;
-                        btnViewHistory.Visible = true;
-                        btnViewHistory.Enabled = true;
+                        btnViewHistory.Visible = false;
+                        btnViewHistory.Enabled = false;
                         txtPort.Enabled = false;
                         btnStart.Enabled = true;
                         cmbStopBits.Enabled = false;
@@ -388,6 +426,14 @@ namespace WFApp_Electronic_Scale
                         btnSendTrigger.Visible = false;
                         cmbLetters.Visible = false;
                         cmbCities.Visible = false;
+                        this.Style = MetroColorStyle.Silver;
+                        txtPort.Style = MetroColorStyle.Silver;
+                        gbSetting.Visible = false;
+                        gbSetting.Enabled = false;
+                        gbPort.Visible = true;
+                        gbPort.Enabled = false;
+                        gbtrigger.Visible = false;
+                        gbtrigger.Enabled = false;
                         // debugInfo += "\n❌ تم إخفاء زر إدارة المستخدمين (ليس مدير)";
                     }
                 }
@@ -470,5 +516,49 @@ namespace WFApp_Electronic_Scale
                 MessageBox.Show($"خطأ في فتح نافذة سجل الأوزان: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void InitializeSettingsMenu()
+        {
+            ContextMenuStrip settingsMenu = new ContextMenuStrip();
+
+            ToolStripMenuItem themeItem = new ToolStripMenuItem("تغيير السمة");
+            themeItem.DropDownItems.Add("فاتحة", null, (s, e) => metroStyleManager.Theme = MetroThemeStyle.Light);
+            themeItem.DropDownItems.Add("داكنة", null, (s, e) => metroStyleManager.Theme = MetroThemeStyle.Dark);
+
+            ToolStripMenuItem colorItem = new ToolStripMenuItem("تغيير اللون");
+            colorItem.DropDownItems.Add("أزرق", null, (s, e) => metroStyleManager.Style = MetroColorStyle.Blue);
+            colorItem.DropDownItems.Add("أخضر", null, (s, e) => metroStyleManager.Style = MetroColorStyle.Green);
+            colorItem.DropDownItems.Add("أحمر", null, (s, e) => metroStyleManager.Style = MetroColorStyle.Red);
+
+            settingsMenu.Items.Add(themeItem);
+            settingsMenu.Items.Add(colorItem);
+
+            btnSettings.ContextMenuStrip = settingsMenu;
+        }
+        private void ShowProgress(bool show)
+        {
+            metroProgressSpinner.Visible = show;
+            metroProgressSpinner.Spinning = show;
+        }
+
+       
+
+
+
+
+
+
+
+        //// استخدامها في العمليات
+        //ShowProgress(true);
+        //await Task.Delay(1000); // عملية مثلا
+        //ShowProgress(false);
+
+        //    MetroNotification.Show(
+        //this,
+        //"تم الإتصال بالميزان بنجاح",
+        //"النظام",
+        //MessageBoxButtons.OK,
+        //icon: MessageBoxIcon.Information);
     }
 }

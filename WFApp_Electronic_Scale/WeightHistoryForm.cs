@@ -42,7 +42,8 @@ namespace WFApp_Electronic_Scale
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnClearFilter = new System.Windows.Forms.Button();
             this.lblTitle = new System.Windows.Forms.Label();
-
+            ((System.ComponentModel.ISupportInitialize)(this.dgvWeights)).BeginInit();
+            this.SuspendLayout();
             // 
             // dgvWeights
             // 
@@ -61,7 +62,6 @@ namespace WFApp_Electronic_Scale
             this.dgvWeights.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvWeights.Size = new System.Drawing.Size(776, 300);
             this.dgvWeights.TabIndex = 0;
-
             // 
             // btnRefresh
             // 
@@ -73,19 +73,19 @@ namespace WFApp_Electronic_Scale
             this.btnRefresh.Text = "تحديث";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-
             // 
             // btnDelete
             // 
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDelete.Enabled = false;
             this.btnDelete.Location = new System.Drawing.Point(118, 400);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(100, 30);
             this.btnDelete.TabIndex = 2;
             this.btnDelete.Text = "حذف المحدد";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Visible = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-
             // 
             // btnClose
             // 
@@ -97,7 +97,6 @@ namespace WFApp_Electronic_Scale
             this.btnClose.Text = "إغلاق";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-
             // 
             // dtpFromDate
             // 
@@ -105,7 +104,6 @@ namespace WFApp_Electronic_Scale
             this.dtpFromDate.Name = "dtpFromDate";
             this.dtpFromDate.Size = new System.Drawing.Size(150, 22);
             this.dtpFromDate.TabIndex = 4;
-
             // 
             // dtpToDate
             // 
@@ -113,27 +111,24 @@ namespace WFApp_Electronic_Scale
             this.dtpToDate.Name = "dtpToDate";
             this.dtpToDate.Size = new System.Drawing.Size(150, 22);
             this.dtpToDate.TabIndex = 5;
-
             // 
             // lblFromDate
             // 
             this.lblFromDate.AutoSize = true;
             this.lblFromDate.Location = new System.Drawing.Point(12, 30);
             this.lblFromDate.Name = "lblFromDate";
-            this.lblFromDate.Size = new System.Drawing.Size(60, 16);
+            this.lblFromDate.Size = new System.Drawing.Size(54, 16);
             this.lblFromDate.TabIndex = 6;
             this.lblFromDate.Text = "من تاريخ:";
-
             // 
             // lblToDate
             // 
             this.lblToDate.AutoSize = true;
             this.lblToDate.Location = new System.Drawing.Point(200, 30);
             this.lblToDate.Name = "lblToDate";
-            this.lblToDate.Size = new System.Drawing.Size(60, 16);
+            this.lblToDate.Size = new System.Drawing.Size(58, 16);
             this.lblToDate.TabIndex = 7;
             this.lblToDate.Text = "إلى تاريخ:";
-
             // 
             // btnFilter
             // 
@@ -144,7 +139,6 @@ namespace WFApp_Electronic_Scale
             this.btnFilter.Text = "تصفية";
             this.btnFilter.UseVisualStyleBackColor = true;
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
-
             // 
             // btnClearFilter
             // 
@@ -155,7 +149,6 @@ namespace WFApp_Electronic_Scale
             this.btnClearFilter.Text = "مسح التصفية";
             this.btnClearFilter.UseVisualStyleBackColor = true;
             this.btnClearFilter.Click += new System.EventHandler(this.btnClearFilter_Click);
-
             // 
             // lblTitle
             // 
@@ -163,10 +156,9 @@ namespace WFApp_Electronic_Scale
             this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.Location = new System.Drawing.Point(12, 9);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(120, 25);
+            this.lblTitle.Size = new System.Drawing.Size(107, 25);
             this.lblTitle.TabIndex = 10;
             this.lblTitle.Text = "سجل الأوزان";
-
             // 
             // WeightHistoryForm
             // 
@@ -192,6 +184,7 @@ namespace WFApp_Electronic_Scale
             ((System.ComponentModel.ISupportInitialize)(this.dgvWeights)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         private void LoadWeightsHistory()
