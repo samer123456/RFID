@@ -68,11 +68,16 @@ namespace WFApp_Electronic_Scale
             this.gbweight = new System.Windows.Forms.GroupBox();
             this.metroLabel11 = new MetroFramework.Controls.MetroLabel();
             this.gbtrigger = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.metroTextBox1 = new MetroFramework.Controls.MetroTextBox();
             this.gbPort.SuspendLayout();
             this.gbSetting.SuspendLayout();
             this.gblog.SuspendLayout();
             this.gbweight.SuspendLayout();
             this.gbtrigger.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // txtPort
@@ -120,6 +125,7 @@ namespace WFApp_Electronic_Scale
             this.txtBaudRate.CustomButton.TabIndex = ((int)(resources.GetObject("resource.TabIndex1")));
             this.txtBaudRate.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtBaudRate.CustomButton.UseSelectable = true;
+            this.txtBaudRate.CustomButton.UseWaitCursor = true;
             this.txtBaudRate.CustomButton.Visible = ((bool)(resources.GetObject("resource.Visible1")));
             this.txtBaudRate.Lines = new string[0];
             resources.ApplyResources(this.txtBaudRate, "txtBaudRate");
@@ -143,6 +149,7 @@ namespace WFApp_Electronic_Scale
             resources.ApplyResources(this.cmbParity, "cmbParity");
             this.cmbParity.Name = "cmbParity";
             this.cmbParity.UseSelectable = true;
+            this.cmbParity.UseWaitCursor = true;
             // 
             // txtDataBits
             // 
@@ -158,6 +165,7 @@ namespace WFApp_Electronic_Scale
             this.txtDataBits.CustomButton.TabIndex = ((int)(resources.GetObject("resource.TabIndex2")));
             this.txtDataBits.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtDataBits.CustomButton.UseSelectable = true;
+            this.txtDataBits.CustomButton.UseWaitCursor = true;
             this.txtDataBits.CustomButton.Visible = ((bool)(resources.GetObject("resource.Visible2")));
             this.txtDataBits.Lines = new string[0];
             resources.ApplyResources(this.txtDataBits, "txtDataBits");
@@ -181,6 +189,7 @@ namespace WFApp_Electronic_Scale
             resources.ApplyResources(this.cmbStopBits, "cmbStopBits");
             this.cmbStopBits.Name = "cmbStopBits";
             this.cmbStopBits.UseSelectable = true;
+            this.cmbStopBits.UseWaitCursor = true;
             // 
             // btnStart
             // 
@@ -188,6 +197,7 @@ namespace WFApp_Electronic_Scale
             this.btnStart.Name = "btnStart";
             this.btnStart.Style = MetroFramework.MetroColorStyle.Blue;
             this.btnStart.UseSelectable = true;
+            this.btnStart.UseWaitCursor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnSendTrigger
@@ -196,6 +206,7 @@ namespace WFApp_Electronic_Scale
             this.btnSendTrigger.Name = "btnSendTrigger";
             this.btnSendTrigger.Style = MetroFramework.MetroColorStyle.Green;
             this.btnSendTrigger.UseSelectable = true;
+            this.btnSendTrigger.UseWaitCursor = true;
             this.btnSendTrigger.Click += new System.EventHandler(this.btnSendTrigger_Click);
             // 
             // txtCommand
@@ -212,6 +223,7 @@ namespace WFApp_Electronic_Scale
             this.txtCommand.CustomButton.TabIndex = ((int)(resources.GetObject("resource.TabIndex3")));
             this.txtCommand.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtCommand.CustomButton.UseSelectable = true;
+            this.txtCommand.CustomButton.UseWaitCursor = true;
             this.txtCommand.CustomButton.Visible = ((bool)(resources.GetObject("resource.Visible3")));
             this.txtCommand.Lines = new string[0];
             resources.ApplyResources(this.txtCommand, "txtCommand");
@@ -242,6 +254,7 @@ namespace WFApp_Electronic_Scale
             this.txtWeight.CustomButton.TabIndex = ((int)(resources.GetObject("resource.TabIndex4")));
             this.txtWeight.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtWeight.CustomButton.UseSelectable = true;
+            this.txtWeight.CustomButton.UseWaitCursor = true;
             this.txtWeight.CustomButton.Visible = ((bool)(resources.GetObject("resource.Visible4")));
             this.txtWeight.Lines = new string[0];
             resources.ApplyResources(this.txtWeight, "txtWeight");
@@ -274,6 +287,7 @@ namespace WFApp_Electronic_Scale
             this.txtLog.CustomButton.TabIndex = ((int)(resources.GetObject("resource.TabIndex5")));
             this.txtLog.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtLog.CustomButton.UseSelectable = true;
+            this.txtLog.CustomButton.UseWaitCursor = true;
             this.txtLog.CustomButton.Visible = ((bool)(resources.GetObject("resource.Visible5")));
             this.txtLog.ForeColor = System.Drawing.Color.Black;
             this.txtLog.Lines = new string[0];
@@ -299,6 +313,7 @@ namespace WFApp_Electronic_Scale
             this.cmbLetters.Name = "cmbLetters";
             this.cmbLetters.PromptText = "اختر حرف من فضلك";
             this.cmbLetters.UseSelectable = true;
+            this.cmbLetters.UseWaitCursor = true;
             // 
             // cmbCities
             // 
@@ -307,6 +322,7 @@ namespace WFApp_Electronic_Scale
             this.cmbCities.Name = "cmbCities";
             this.cmbCities.PromptText = "اختر المدينة من فضلك";
             this.cmbCities.UseSelectable = true;
+            this.cmbCities.UseWaitCursor = true;
             // 
             // btnManageUsers
             // 
@@ -314,6 +330,7 @@ namespace WFApp_Electronic_Scale
             this.btnManageUsers.Name = "btnManageUsers";
             this.btnManageUsers.Style = MetroFramework.MetroColorStyle.Purple;
             this.btnManageUsers.UseSelectable = true;
+            this.btnManageUsers.UseWaitCursor = true;
             this.btnManageUsers.Click += new System.EventHandler(this.btnManageUsers_Click);
             // 
             // btnTestLogin
@@ -321,6 +338,7 @@ namespace WFApp_Electronic_Scale
             resources.ApplyResources(this.btnTestLogin, "btnTestLogin");
             this.btnTestLogin.Name = "btnTestLogin";
             this.btnTestLogin.UseSelectable = true;
+            this.btnTestLogin.UseWaitCursor = true;
             this.btnTestLogin.Click += new System.EventHandler(this.btnTestLogin_Click);
             // 
             // btnViewHistory
@@ -329,12 +347,14 @@ namespace WFApp_Electronic_Scale
             this.btnViewHistory.Name = "btnViewHistory";
             this.btnViewHistory.Style = MetroFramework.MetroColorStyle.Teal;
             this.btnViewHistory.UseSelectable = true;
+            this.btnViewHistory.UseWaitCursor = true;
             this.btnViewHistory.Click += new System.EventHandler(this.btnViewHistory_Click);
             // 
             // metroLabel1
             // 
             resources.ApplyResources(this.metroLabel1, "metroLabel1");
             this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.UseWaitCursor = true;
             // 
             // gbPort
             // 
@@ -351,31 +371,37 @@ namespace WFApp_Electronic_Scale
             resources.ApplyResources(this.gbPort, "gbPort");
             this.gbPort.Name = "gbPort";
             this.gbPort.TabStop = false;
+            this.gbPort.UseWaitCursor = true;
             // 
             // metroLabel7
             // 
             resources.ApplyResources(this.metroLabel7, "metroLabel7");
             this.metroLabel7.Name = "metroLabel7";
+            this.metroLabel7.UseWaitCursor = true;
             // 
             // metroLabel6
             // 
             resources.ApplyResources(this.metroLabel6, "metroLabel6");
             this.metroLabel6.Name = "metroLabel6";
+            this.metroLabel6.UseWaitCursor = true;
             // 
             // metroLabel5
             // 
             resources.ApplyResources(this.metroLabel5, "metroLabel5");
             this.metroLabel5.Name = "metroLabel5";
+            this.metroLabel5.UseWaitCursor = true;
             // 
             // metroLabel4
             // 
             resources.ApplyResources(this.metroLabel4, "metroLabel4");
             this.metroLabel4.Name = "metroLabel4";
+            this.metroLabel4.UseWaitCursor = true;
             // 
             // metroLabel3
             // 
             resources.ApplyResources(this.metroLabel3, "metroLabel3");
             this.metroLabel3.Name = "metroLabel3";
+            this.metroLabel3.UseWaitCursor = true;
             // 
             // gbSetting
             // 
@@ -386,21 +412,25 @@ namespace WFApp_Electronic_Scale
             resources.ApplyResources(this.gbSetting, "gbSetting");
             this.gbSetting.Name = "gbSetting";
             this.gbSetting.TabStop = false;
+            this.gbSetting.UseWaitCursor = true;
             // 
             // metroLabel10
             // 
             resources.ApplyResources(this.metroLabel10, "metroLabel10");
             this.metroLabel10.Name = "metroLabel10";
+            this.metroLabel10.UseWaitCursor = true;
             // 
             // metroLabel9
             // 
             resources.ApplyResources(this.metroLabel9, "metroLabel9");
             this.metroLabel9.Name = "metroLabel9";
+            this.metroLabel9.UseWaitCursor = true;
             // 
             // metroLabel8
             // 
             resources.ApplyResources(this.metroLabel8, "metroLabel8");
             this.metroLabel8.Name = "metroLabel8";
+            this.metroLabel8.UseWaitCursor = true;
             // 
             // gblog
             // 
@@ -409,6 +439,7 @@ namespace WFApp_Electronic_Scale
             resources.ApplyResources(this.gblog, "gblog");
             this.gblog.Name = "gblog";
             this.gblog.TabStop = false;
+            this.gblog.UseWaitCursor = true;
             // 
             // gbweight
             // 
@@ -417,11 +448,13 @@ namespace WFApp_Electronic_Scale
             resources.ApplyResources(this.gbweight, "gbweight");
             this.gbweight.Name = "gbweight";
             this.gbweight.TabStop = false;
+            this.gbweight.UseWaitCursor = true;
             // 
             // metroLabel11
             // 
             resources.ApplyResources(this.metroLabel11, "metroLabel11");
             this.metroLabel11.Name = "metroLabel11";
+            this.metroLabel11.UseWaitCursor = true;
             // 
             // gbtrigger
             // 
@@ -431,11 +464,68 @@ namespace WFApp_Electronic_Scale
             resources.ApplyResources(this.gbtrigger, "gbtrigger");
             this.gbtrigger.Name = "gbtrigger";
             this.gbtrigger.TabStop = false;
+            this.gbtrigger.UseWaitCursor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::WFApp_Electronic_Scale.Properties.Resources.GWY_Logo;
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.UseWaitCursor = true;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::WFApp_Electronic_Scale.Properties.Resources.Transforat;
+            resources.ApplyResources(this.pictureBox2, "pictureBox2");
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.UseWaitCursor = true;
+            // 
+            // metroTextBox1
+            // 
+            // 
+            // 
+            // 
+            this.metroTextBox1.CustomButton.Image = ((System.Drawing.Image)(resources.GetObject("resource.Image6")));
+            this.metroTextBox1.CustomButton.Location = ((System.Drawing.Point)(resources.GetObject("resource.Location6")));
+            this.metroTextBox1.CustomButton.Name = "";
+            this.metroTextBox1.CustomButton.Size = ((System.Drawing.Size)(resources.GetObject("resource.Size6")));
+            this.metroTextBox1.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox1.CustomButton.TabIndex = ((int)(resources.GetObject("resource.TabIndex6")));
+            this.metroTextBox1.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.metroTextBox1.CustomButton.UseSelectable = true;
+            this.metroTextBox1.CustomButton.UseWaitCursor = true;
+            this.metroTextBox1.CustomButton.Visible = ((bool)(resources.GetObject("resource.Visible6")));
+            this.metroTextBox1.FontSize = MetroFramework.MetroTextBoxSize.Tall;
+            this.metroTextBox1.FontWeight = MetroFramework.MetroTextBoxWeight.Bold;
+            this.metroTextBox1.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.metroTextBox1.Lines = new string[] {
+        "Done by TransForat."};
+            resources.ApplyResources(this.metroTextBox1, "metroTextBox1");
+            this.metroTextBox1.MaxLength = 32767;
+            this.metroTextBox1.Name = "metroTextBox1";
+            this.metroTextBox1.PasswordChar = '\0';
+            this.metroTextBox1.ReadOnly = true;
+            this.metroTextBox1.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.metroTextBox1.SelectedText = "";
+            this.metroTextBox1.SelectionLength = 0;
+            this.metroTextBox1.SelectionStart = 0;
+            this.metroTextBox1.ShortcutsEnabled = true;
+            this.metroTextBox1.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.metroTextBox1.UseSelectable = true;
+            this.metroTextBox1.UseWaitCursor = true;
+            this.metroTextBox1.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.metroTextBox1.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.metroTextBox1);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.gbtrigger);
             this.Controls.Add(this.gbweight);
             this.Controls.Add(this.gblog);
@@ -463,6 +553,8 @@ namespace WFApp_Electronic_Scale
             this.gbweight.PerformLayout();
             this.gbtrigger.ResumeLayout(false);
             this.gbtrigger.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -481,5 +573,8 @@ namespace WFApp_Electronic_Scale
         private MetroLabel metroLabel9;
         private MetroLabel metroLabel11;
         private GroupBox gbtrigger;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
+        private MetroTextBox metroTextBox1;
     }
 }

@@ -383,7 +383,7 @@ namespace WFApp_Electronic_Scale
                     debugInfo = $"المستخدم الحالي: {LoginForm.CurrentUser.Username}\nالنوع: {LoginForm.CurrentUser.UserType}";
 
                     // عرض معلومات المستخدم في العنوان (اختياري)
-                    this.Text = $"برنامج الميزان - {LoginForm.CurrentUser.Username} ({LoginForm.CurrentUser.UserType})";
+                    this.Text = $"برنامج الميزان\n\r {LoginForm.CurrentUser.Username} ({LoginForm.CurrentUser.UserType})";
 
                     // إظهار زر إدارة المستخدمين للمديرين فقط
                     if (LoginForm.CurrentUser.UserType == "Admin")
@@ -541,7 +541,9 @@ namespace WFApp_Electronic_Scale
             metroProgressSpinner.Spinning = show;
         }
 
-       
+    
+
+
 
 
 

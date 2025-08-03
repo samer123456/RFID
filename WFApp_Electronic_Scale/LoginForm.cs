@@ -38,26 +38,24 @@ namespace WFApp_Electronic_Scale
             // txtUsername
             // 
             this.txtUsername.Location = new System.Drawing.Point(27, 49);
-            this.txtUsername.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtUsername.Margin = new System.Windows.Forms.Padding(4);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(345, 22);
             this.txtUsername.TabIndex = 0;
-            this.txtUsername.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // txtPassword
             // 
             this.txtPassword.Location = new System.Drawing.Point(27, 111);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(345, 22);
             this.txtPassword.TabIndex = 1;
-            this.txtPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnLogin
             // 
             this.btnLogin.Location = new System.Drawing.Point(27, 160);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(4);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(160, 37);
             this.btnLogin.TabIndex = 2;
@@ -68,7 +66,7 @@ namespace WFApp_Electronic_Scale
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(213, 160);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(160, 37);
             this.btnCancel.TabIndex = 3;
@@ -79,7 +77,7 @@ namespace WFApp_Electronic_Scale
             // 
             this.lblUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(283, 29);
+            this.lblUsername.Location = new System.Drawing.Point(24, 28);
             this.lblUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -91,7 +89,7 @@ namespace WFApp_Electronic_Scale
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(291, 91);
+            this.lblPassword.Location = new System.Drawing.Point(32, 88);
             this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(65, 16);
@@ -112,11 +110,12 @@ namespace WFApp_Electronic_Scale
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "تسجيل الدخول";
             this.ResumeLayout(false);
