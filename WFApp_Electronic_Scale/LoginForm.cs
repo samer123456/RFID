@@ -79,9 +79,10 @@ namespace WFApp_Electronic_Scale
             // 
             this.lblUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(294, 20);
+            this.lblUsername.Location = new System.Drawing.Point(283, 29);
             this.lblUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsername.Name = "lblUsername";
+            this.lblUsername.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lblUsername.Size = new System.Drawing.Size(73, 16);
             this.lblUsername.TabIndex = 1;
             this.lblUsername.Text = "اسم المستخدم:";
@@ -90,7 +91,7 @@ namespace WFApp_Electronic_Scale
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(302, 91);
+            this.lblPassword.Location = new System.Drawing.Point(291, 91);
             this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(65, 16);

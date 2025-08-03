@@ -89,6 +89,7 @@ namespace WFApp_Electronic_Scale
             this.txtPort.CustomButton.TabIndex = ((int)(resources.GetObject("resource.TabIndex")));
             this.txtPort.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtPort.CustomButton.UseSelectable = true;
+            this.txtPort.CustomButton.UseWaitCursor = true;
             this.txtPort.CustomButton.Visible = ((bool)(resources.GetObject("resource.Visible")));
             this.txtPort.Lines = new string[0];
             resources.ApplyResources(this.txtPort, "txtPort");
@@ -101,6 +102,7 @@ namespace WFApp_Electronic_Scale
             this.txtPort.SelectionStart = 0;
             this.txtPort.ShortcutsEnabled = true;
             this.txtPort.UseSelectable = true;
+            this.txtPort.UseWaitCursor = true;
             this.txtPort.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtPort.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
@@ -130,6 +132,7 @@ namespace WFApp_Electronic_Scale
             this.txtBaudRate.SelectionStart = 0;
             this.txtBaudRate.ShortcutsEnabled = true;
             this.txtBaudRate.UseSelectable = true;
+            this.txtBaudRate.UseWaitCursor = true;
             this.txtBaudRate.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtBaudRate.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
@@ -167,6 +170,7 @@ namespace WFApp_Electronic_Scale
             this.txtDataBits.SelectionStart = 0;
             this.txtDataBits.ShortcutsEnabled = true;
             this.txtDataBits.UseSelectable = true;
+            this.txtDataBits.UseWaitCursor = true;
             this.txtDataBits.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtDataBits.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
@@ -220,6 +224,7 @@ namespace WFApp_Electronic_Scale
             this.txtCommand.SelectionStart = 0;
             this.txtCommand.ShortcutsEnabled = true;
             this.txtCommand.UseSelectable = true;
+            this.txtCommand.UseWaitCursor = true;
             this.txtCommand.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtCommand.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
@@ -250,6 +255,7 @@ namespace WFApp_Electronic_Scale
             this.txtWeight.SelectionStart = 0;
             this.txtWeight.ShortcutsEnabled = true;
             this.txtWeight.UseSelectable = true;
+            this.txtWeight.UseWaitCursor = true;
             this.txtWeight.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtWeight.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
@@ -282,6 +288,7 @@ namespace WFApp_Electronic_Scale
             this.txtLog.SelectionStart = 0;
             this.txtLog.ShortcutsEnabled = true;
             this.txtLog.UseSelectable = true;
+            this.txtLog.UseWaitCursor = true;
             this.txtLog.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtLog.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
@@ -438,9 +445,12 @@ namespace WFApp_Electronic_Scale
             this.Controls.Add(this.btnViewHistory);
             this.Controls.Add(this.btnTestLogin);
             this.Controls.Add(this.btnManageUsers);
+            this.MaximizeBox = false;
             this.Name = "Form1";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Style = MetroFramework.MetroColorStyle.Orange;
             this.TextAlign = MetroFramework.Forms.MetroFormTextAlign.Center;
+            this.UseWaitCursor = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.gbPort.ResumeLayout(false);
