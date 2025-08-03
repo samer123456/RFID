@@ -135,6 +135,7 @@ namespace WFApp_Electronic_Scale
             // 
             // cmbParity
             // 
+            this.cmbParity.FontSize = MetroFramework.MetroComboBoxSize.Small;
             this.cmbParity.FormattingEnabled = true;
             resources.ApplyResources(this.cmbParity, "cmbParity");
             this.cmbParity.Name = "cmbParity";
@@ -171,6 +172,7 @@ namespace WFApp_Electronic_Scale
             // 
             // cmbStopBits
             // 
+            this.cmbStopBits.FontSize = MetroFramework.MetroComboBoxSize.Small;
             this.cmbStopBits.FormattingEnabled = true;
             resources.ApplyResources(this.cmbStopBits, "cmbStopBits");
             this.cmbStopBits.Name = "cmbStopBits";

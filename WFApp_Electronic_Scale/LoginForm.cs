@@ -27,80 +27,100 @@ namespace WFApp_Electronic_Scale
 
         private void InitializeComponent()
         {
-            this.txtUsername = new TextBox();
-            this.txtPassword = new TextBox();
-            this.btnLogin = new Button();
-            this.btnCancel = new Button();
-            this.lblUsername = new Label();
-            this.lblPassword = new Label();
-
-            // Form
+            this.txtUsername = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.btnLogin = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.lblUsername = new System.Windows.Forms.Label();
+            this.lblPassword = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 200);
+            // 
+            // txtUsername
+            // 
+            this.txtUsername.Location = new System.Drawing.Point(27, 49);
+            this.txtUsername.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.Size = new System.Drawing.Size(345, 22);
+            this.txtUsername.TabIndex = 0;
+            this.txtUsername.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(27, 111);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
+            this.txtPassword.Size = new System.Drawing.Size(345, 22);
+            this.txtPassword.TabIndex = 1;
+            this.txtPassword.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // btnLogin
+            // 
+            this.btnLogin.Location = new System.Drawing.Point(27, 160);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLogin.Name = "btnLogin";
+            this.btnLogin.Size = new System.Drawing.Size(160, 37);
+            this.btnLogin.TabIndex = 2;
+            this.btnLogin.Text = "تسجيل الدخول";
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(213, 160);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(160, 37);
+            this.btnCancel.TabIndex = 3;
+            this.btnCancel.Text = "إلغاء";
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // lblUsername
+            // 
+            this.lblUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblUsername.AutoSize = true;
+            this.lblUsername.Location = new System.Drawing.Point(294, 20);
+            this.lblUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblUsername.Name = "lblUsername";
+            this.lblUsername.Size = new System.Drawing.Size(73, 16);
+            this.lblUsername.TabIndex = 1;
+            this.lblUsername.Text = "اسم المستخدم:";
+            this.lblUsername.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblPassword
+            // 
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Location = new System.Drawing.Point(302, 91);
+            this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(65, 16);
+            this.lblPassword.TabIndex = 0;
+            this.lblPassword.Text = "كلمة المرور:";
+            // 
+            // LoginForm
+            // 
+            this.AcceptButton = this.btnLogin;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(400, 246);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
-            this.StartPosition = FormStartPosition.CenterScreen;
+            this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "تسجيل الدخول";
             this.ResumeLayout(false);
             this.PerformLayout();
 
-            // lblUsername
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(20, 20);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(70, 13);
-            this.lblUsername.Text = "اسم المستخدم:";
-
-
-            // txtUsername
-            this.txtUsername.Location = new System.Drawing.Point(20, 40);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(260, 20);
-            this.txtUsername.TabIndex = 0;
-
-            // lblPassword
-            this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(20, 70);
-            this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(70, 13);
-            this.lblPassword.Text = "كلمة المرور:";
-
-            // txtPassword
-            this.txtPassword.Location = new System.Drawing.Point(20, 90);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(260, 20);
-            this.txtPassword.TabIndex = 1;
-
-            // btnLogin
-            this.btnLogin.Location = new System.Drawing.Point(20, 130);
-            this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(120, 30);
-            this.btnLogin.Text = "تسجيل الدخول";
-            this.btnLogin.Click += new EventHandler(this.btnLogin_Click);
-            this.btnLogin.TabIndex = 2;
-
-
-            // btnCancel
-            this.btnCancel.Location = new System.Drawing.Point(160, 130);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(120, 30);
-            this.btnCancel.Text = "إلغاء";
-            this.btnCancel.Click += new EventHandler(this.btnCancel_Click);
-            this.btnCancel.TabIndex = 3;
-
-            this.AcceptButton = this.btnLogin;
-            this.CancelButton = this.btnCancel;
         }
 
         private void InitializeUsersFile()
