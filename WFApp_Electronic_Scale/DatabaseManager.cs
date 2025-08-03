@@ -79,8 +79,8 @@ namespace WFApp_Electronic_Scale
             }
         }
 
-        public bool SaveWeight(decimal weight, string weightUnit = null, string userId = null, 
-            string userName = null, string city = null, string notes = null)
+        public bool SaveWeight(decimal weight, string userId = null, 
+            string userName = null, string city = null)
         {
             try
             {
@@ -89,18 +89,18 @@ namespace WFApp_Electronic_Scale
                     connection.Open();
 
                     string insertQuery = @"
-                        INSERT INTO Weights (Weight, WeightUnit, ReadingTime, UserId, UserName, City, Notes)
-                        VALUES (@Weight, @WeightUnit, @ReadingTime, @UserId, @UserName, @City, @Notes)";
+                        INSERT INTO Weights (Weight, ReadingTime, UserId, UserName, City)
+                        VALUES (@Weight, , @ReadingTime, @UserId, @UserName, @City)";
 
                     using (SqlCommand command = new SqlCommand(insertQuery, connection))
                     {
                         command.Parameters.AddWithValue("@Weight", weight);
-                        command.Parameters.AddWithValue("@WeightUnit", weightUnit ?? DatabaseSettings.DefaultWeightUnit);
+                        //command.Parameters.AddWithValue("@WeightUnit", weightUnit ?? DatabaseSettings.DefaultWeightUnit);
                         command.Parameters.AddWithValue("@ReadingTime", DateTime.Now);
                         command.Parameters.AddWithValue("@UserId", (object)userId ?? DBNull.Value);
                         command.Parameters.AddWithValue("@UserName", (object)userName ?? DBNull.Value);
                         command.Parameters.AddWithValue("@City", (object)city ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@Notes", (object)notes ?? DBNull.Value);
+                        //command.Parameters.AddWithValue("@Notes", (object)notes ?? DBNull.Value);
 
                         command.ExecuteNonQuery();
                     }
@@ -126,7 +126,7 @@ namespace WFApp_Electronic_Scale
 
                     string selectQuery = @"
                         SELECT TOP (@Limit) 
-                            Id, Weight, WeightUnit, ReadingTime, UserId, UserName, City, Notes
+                            Id, Weight, ReadingTime, UserId, UserName, City, NoPlate, LetterPlate
                         FROM Weights 
                         WHERE 1=1";
 

@@ -313,7 +313,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnStart.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="btnSendTrigger.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 113</value>
@@ -541,7 +541,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnManageUsers.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="btnTestLogin.Location" type="System.Drawing.Point, System.Drawing">
     <value>1152, 272</value>
@@ -568,7 +568,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnTestLogin.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="btnViewHistory.Location" type="System.Drawing.Point, System.Drawing">
     <value>1152, 232</value>
@@ -595,7 +595,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnViewHistory.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="metroLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -703,7 +703,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;gbPort.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="metroLabel7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -883,7 +883,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;gbSetting.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="metroLabel10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -985,7 +985,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;gblog.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;metroLabel11.Name" xml:space="preserve">
     <value>metroLabel11</value>
@@ -1018,7 +1018,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;gbweight.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="metroLabel11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1072,7 +1072,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;gbtrigger.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="pictureBox1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1099,7 +1099,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="pictureBox2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1126,45 +1126,57 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
-  <data name="resource.Image6" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="metroLabelInfo.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="resource.Location6" type="System.Drawing.Point, System.Drawing">
-    <value>281, 1</value>
+  <data name="metroLabelInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>594, 77</value>
   </data>
-  <data name="resource.Size6" type="System.Drawing.Size, System.Drawing">
-    <value>21, 21</value>
+  <data name="metroLabelInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="resource.TabIndex6" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="metroLabelInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
   </data>
-  <data name="resource.Visible6" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;metroLabelInfo.Name" xml:space="preserve">
+    <value>metroLabelInfo</value>
   </data>
-  <data name="metroTextBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>519, 709</value>
+  <data name="&gt;&gt;metroLabelInfo.Type" xml:space="preserve">
+    <value>MetroFramework.Controls.MetroLabel, MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a</value>
   </data>
-  <data name="metroTextBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>303, 30</value>
-  </data>
-  <data name="metroTextBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
-  </data>
-  <data name="metroTextBox1.Text" xml:space="preserve">
-    <value>Done by TransForat.</value>
-  </data>
-  <data name="&gt;&gt;metroTextBox1.Name" xml:space="preserve">
-    <value>metroTextBox1</value>
-  </data>
-  <data name="&gt;&gt;metroTextBox1.Type" xml:space="preserve">
-    <value>MetroFramework.Controls.MetroTextBox, MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a</value>
-  </data>
-  <data name="&gt;&gt;metroTextBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;metroLabelInfo.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;metroTextBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;metroLabelInfo.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="metroLabel2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="metroLabel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>591, 720</value>
+  </data>
+  <data name="metroLabel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 25</value>
+  </data>
+  <data name="metroLabel2.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="metroLabel2.Text" xml:space="preserve">
+    <value>Done by Transforat.</value>
+  </data>
+  <data name="&gt;&gt;metroLabel2.Name" xml:space="preserve">
+    <value>metroLabel2</value>
+  </data>
+  <data name="&gt;&gt;metroLabel2.Type" xml:space="preserve">
+    <value>MetroFramework.Controls.MetroLabel, MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a</value>
+  </data>
+  <data name="&gt;&gt;metroLabel2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;metroLabel2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -2310,6 +2322,9 @@
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
+  </data>
+  <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
   </data>
   <data name="$this.RightToLeftLayout" type="System.Boolean, mscorlib">
     <value>True</value>

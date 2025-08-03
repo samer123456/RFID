@@ -282,11 +282,12 @@ namespace WFApp_Electronic_Scale
                     string city = cmbCities.SelectedItem?.ToString() ?? "";
 
                     // حفظ الوزن في قاعدة البيانات
-                    if (dbManager.SaveWeight(weight, null, userId, userName, city))
+                    if (dbManager.SaveWeight(weight, userId, userName, city))
                     {
                         if (DatabaseSettings.LogDatabaseOperations)
                         {
-                            Log($"تم حفظ الوزن: {weight} {DatabaseSettings.DefaultWeightUnit} في قاعدة البيانات");
+                            /*{DatabaseSettings.DefaultWeightUnit}*/
+                            Log($"تم حفظ الوزن: {weight}  في قاعدة البيانات");
                         }
                     }
                     else
@@ -383,8 +384,8 @@ namespace WFApp_Electronic_Scale
                     debugInfo = $"المستخدم الحالي: {LoginForm.CurrentUser.Username}\nالنوع: {LoginForm.CurrentUser.UserType}";
 
                     // عرض معلومات المستخدم في العنوان (اختياري)
-                    this.Text = $"برنامج الميزان\n\r {LoginForm.CurrentUser.Username} ({LoginForm.CurrentUser.UserType})";
-
+                    //this.Text = $"{LoginForm.CurrentUser.Username} ({LoginForm.CurrentUser.UserType})";
+                    this.metroLabelInfo.Text = $"{LoginForm.CurrentUser.Username} مرحباُ بك";
                     // إظهار زر إدارة المستخدمين للمديرين فقط
                     if (LoginForm.CurrentUser.UserType == "Admin")
                     {
@@ -403,9 +404,9 @@ namespace WFApp_Electronic_Scale
                         btnSendTrigger.Enabled = true;
                         txtPort.Enabled = true;
                         cmbCities.Enabled = true;
-                        btnManageUsers.Style = MetroColorStyle.Orange;
+                        btnManageUsers.Style = MetroColorStyle.Green;
                         btnManageUsers.Theme = MetroThemeStyle.Light;
-                        btnManageUsers.BackColor = Color.FromArgb(70, 130, 180);
+                        btnManageUsers.BackColor = Color.Red;
 
                         //debugInfo += "\n✅ تم إظهار زر إدارة المستخدمين";
                     }
@@ -426,8 +427,8 @@ namespace WFApp_Electronic_Scale
                         btnSendTrigger.Visible = false;
                         cmbLetters.Visible = false;
                         cmbCities.Visible = false;
-                        this.Style = MetroColorStyle.Silver;
-                        txtPort.Style = MetroColorStyle.Silver;
+                        this.Style = MetroColorStyle.Orange;
+                        txtPort.Style = MetroColorStyle.Orange;
                         gbSetting.Visible = false;
                         gbSetting.Enabled = false;
                         gbPort.Visible = true;

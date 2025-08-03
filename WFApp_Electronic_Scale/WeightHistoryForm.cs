@@ -199,12 +199,14 @@ namespace WFApp_Electronic_Scale
                 {
                     dgvWeights.Columns["Id"].HeaderText = "الرقم";
                     dgvWeights.Columns["Weight"].HeaderText = "الوزن";
-                    dgvWeights.Columns["WeightUnit"].HeaderText = "الوحدة";
+                    //dgvWeights.Columns["WeightUnit"].HeaderText = "الوحدة";
                     dgvWeights.Columns["ReadingTime"].HeaderText = "وقت القراءة";
                     dgvWeights.Columns["UserId"].HeaderText = "معرف المستخدم";
                     dgvWeights.Columns["UserName"].HeaderText = "اسم المستخدم";
+                    dgvWeights.Columns["LetterPlate"].HeaderText = "محرف اللوحة";
+                    dgvWeights.Columns["NoPlate"].HeaderText = "رقم اللوحة";
                     dgvWeights.Columns["City"].HeaderText = "المدينة";
-                    dgvWeights.Columns["Notes"].HeaderText = "ملاحظات";
+                    //dgvWeights.Columns["Notes"].HeaderText = "ملاحظات";
                 }
             }
             catch (Exception ex)
