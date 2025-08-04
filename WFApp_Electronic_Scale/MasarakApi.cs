@@ -142,7 +142,7 @@ namespace WFApp_Electronic_Scale
                     var responseObj = JObject.Parse(responseBody);
 
                     // الحصول على المصفوفة داخل message["1"]
-                    var platesArray = responseObj["message"]?["truck"] as JObject;
+                    var platesArray = responseObj["message"]?["trip"] as JObject;
 
                     // التحقق من وجود المصفوفة وأنها تحتوي على عناصر
                     if (platesArray != null && platesArray.Count > 0)
@@ -151,7 +151,7 @@ namespace WFApp_Electronic_Scale
                         //var firstPlate = platesArray[0];
 
                         // استخراج قيمة "name"
-                        return platesArray["plate_number"]?.ToString();
+                        return platesArray["truck_number"]?.ToString();
                     }
                     else
                     {
