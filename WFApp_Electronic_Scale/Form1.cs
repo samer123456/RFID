@@ -43,6 +43,8 @@ namespace WFApp_Electronic_Scale
             CheckUserPermissions();
             port = new SerialPort();
             port.DataReceived += Port_DataReceived;
+            UHF.OnTagReceived += UHF_OnTagReceived;
+            //UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
 
             // تحميل إعدادات قاعدة البيانات
             DatabaseSettings.LoadSettings();
@@ -340,7 +342,10 @@ namespace WFApp_Electronic_Scale
                 port.Close();
                 Log("Port closed.");
             }
+            port.DataReceived -= Port_DataReceived;
             UHF.Close();
+            UHF.OnTagReceived -= UHF_OnTagReceived; // إلغاء الاشتراك
+            //base.OnFormClosing(e);
         }
 
         private void VeriTalepGonder()
@@ -365,7 +370,7 @@ namespace WFApp_Electronic_Scale
         private async void Form1_Load(object sender, EventArgs e)
         {
             CityLoader cityLoader = new CityLoader(cmbCities);
-           // UHF.Init();
+            // UHF.Init();
             MasarakApi masarakApi = new MasarakApi();
             masarakApi.GetPlateNumberAsync("searchTag", "112233", "f39a13dc264037d", "42ec5dcfc6e0d58");
             //await cityLoader.LoadCitiesAsync();
@@ -546,7 +551,18 @@ namespace WFApp_Electronic_Scale
             metroProgressSpinner.Spinning = show;
         }
 
-
+        // معالج الحدث عند استلام Tag ID
+        private void UHF_OnTagReceived(int tagId)
+        {
+            // تأكد من التنفيذ في خيط واجهة المستخدم
+            if (InvokeRequired)
+            {
+                Invoke(new Action<int>(UHF_OnTagReceived), tagId);
+                return;
+            }
+            // عرض القيمة في عنصر واجهة المستخدم (مثل Label أو TextBox)
+            metroLabelPlateNumper.Text = " Tag Id: " + tagId.ToString();
+        }
 
 
 

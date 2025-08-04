@@ -9,6 +9,7 @@ namespace WFApp_Electronic_Scale
         static byte[] buffer = new byte[0];
         static readonly byte[] FRAME_START = { 0x43, 0x54 }; // "CT"
         const int FRAME_LENGTH = 24;
+        public static event Action<int> OnTagReceived; // حدث جديد
 
         // دالة لتهيئة المنفذ التسلسلي
         public static void Init()
@@ -67,6 +68,9 @@ namespace WFApp_Electronic_Scale
                         ? (tagBytes[0] << 16) | (tagBytes[1] << 8) | tagBytes[2]
                         : BitConverter.ToInt32(tagBytes, 0);
 
+                    // إطلاق الحدث مع قيمة الـ Tag ID
+                    OnTagReceived?.Invoke(tagId);
+
                     Console.WriteLine("🆔 Tag Hex: " + BitConverter.ToString(tagBytes).Replace("-", ""));
                     Console.WriteLine("🆔 Tag ID: " + tagId);
 
@@ -75,6 +79,7 @@ namespace WFApp_Electronic_Scale
                     byte[] newBuf = new byte[remaining];
                     Array.Copy(buffer, startIdx + FRAME_LENGTH, newBuf, 0, remaining);
                     buffer = newBuf;
+
                 }
                 else
                 {

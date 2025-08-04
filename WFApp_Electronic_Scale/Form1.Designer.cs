@@ -72,6 +72,7 @@ namespace WFApp_Electronic_Scale
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.metroLabelInfo = new MetroFramework.Controls.MetroLabel();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabelPlateNumper = new MetroFramework.Controls.MetroLabel();
             this.gbPort.SuspendLayout();
             this.gbSetting.SuspendLayout();
             this.gblog.SuspendLayout();
@@ -107,6 +108,7 @@ namespace WFApp_Electronic_Scale
             this.txtPort.SelectionLength = 0;
             this.txtPort.SelectionStart = 0;
             this.txtPort.ShortcutsEnabled = true;
+            this.txtPort.UseSelectable = true;
             this.txtPort.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtPort.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
@@ -455,8 +457,6 @@ namespace WFApp_Electronic_Scale
             // 
             resources.ApplyResources(this.metroLabelInfo, "metroLabelInfo");
             this.metroLabelInfo.Name = "metroLabelInfo";
-            this.metroLabelInfo.AutoSize = true;
-            this.metroLabelInfo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // metroLabel2
             // 
@@ -466,10 +466,16 @@ namespace WFApp_Electronic_Scale
             this.metroLabel2.Name = "metroLabel2";
             this.metroLabel2.Style = MetroFramework.MetroColorStyle.Blue;
             // 
+            // metroLabelPlateNumper
+            // 
+            resources.ApplyResources(this.metroLabelPlateNumper, "metroLabelPlateNumper");
+            this.metroLabelPlateNumper.Name = "metroLabelPlateNumper";
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.metroLabelPlateNumper);
             this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.metroLabelInfo);
             this.Controls.Add(this.pictureBox2);
@@ -524,5 +530,6 @@ namespace WFApp_Electronic_Scale
         private PictureBox pictureBox2;
         private MetroLabel metroLabelInfo;
         private MetroLabel metroLabel2;
+        private MetroLabel metroLabelPlateNumper;
     }
 }

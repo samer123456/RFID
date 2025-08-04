@@ -12,7 +12,7 @@ namespace WFApp_Electronic_Scale
 {
     public class MasarakApi
     {
-        private string apiUrl = "https://stage-masarak.frappe.cloud/api/method/utils";// "http://60.253.213.6:8091/op";
+        private string apiUrl = "https://stage-masarak.frappe.cloud/api/method/get_trip_by_tag_id";// "http://60.253.213.6:8091/op";
 
         public async Task<string> GetPlateNumberAsync()
         {
@@ -108,7 +108,7 @@ namespace WFApp_Electronic_Scale
 
                     // بناء عنوان URL مع معاملات الاستعلام
                     var uriBuilder = new UriBuilder(apiUrl);
-                    string query = $"command={Uri.EscapeDataString(command)}&tag={Uri.EscapeDataString(tag)}";
+                    string query = $"command={Uri.EscapeDataString(command)}&tag_id={Uri.EscapeDataString(tag)}";
 
                     // التعامل مع العلامات الموجودة مسبقًا في URL
                     if (uriBuilder.Query != null && uriBuilder.Query.Length > 1)
@@ -142,16 +142,16 @@ namespace WFApp_Electronic_Scale
                     var responseObj = JObject.Parse(responseBody);
 
                     // الحصول على المصفوفة داخل message["1"]
-                    var platesArray = responseObj["message"]?["1"] as JArray;
+                    var platesArray = responseObj["message"]?["truck"] as JObject;
 
                     // التحقق من وجود المصفوفة وأنها تحتوي على عناصر
                     if (platesArray != null && platesArray.Count > 0)
                     {
                         // الحصول على أول عنصر في المصفوفة
-                        var firstPlate = platesArray[0];
+                        //var firstPlate = platesArray[0];
 
                         // استخراج قيمة "name"
-                        return firstPlate["name"]?.ToString();
+                        return platesArray["plate_number"]?.ToString();
                     }
                     else
                     {
