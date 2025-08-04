@@ -64,7 +64,7 @@ namespace WFApp_Electronic_Scale
 
         private void InitializeDefaults()
         {
-           
+
 
             cmbParity.Items.AddRange(Enum.GetNames(typeof(Parity)));
             cmbStopBits.Items.AddRange(Enum.GetNames(typeof(StopBits)));
@@ -313,7 +313,7 @@ namespace WFApp_Electronic_Scale
         //    File.AppendAllText(logFilePath, logEntry);
         //}
 
-      
+
         private void Log(string message)
         {
             string logEntry = DateTime.Now + " - " + message + "\n";
@@ -340,6 +340,7 @@ namespace WFApp_Electronic_Scale
                 port.Close();
                 Log("Port closed.");
             }
+            UHF.Close();
         }
 
         private void VeriTalepGonder()
@@ -364,6 +365,9 @@ namespace WFApp_Electronic_Scale
         private async void Form1_Load(object sender, EventArgs e)
         {
             CityLoader cityLoader = new CityLoader(cmbCities);
+           // UHF.Init();
+            MasarakApi masarakApi = new MasarakApi();
+            masarakApi.GetPlateNumberAsync("searchTag", "112233", "f39a13dc264037d", "42ec5dcfc6e0d58");
             //await cityLoader.LoadCitiesAsync();
 
             // اختبار بيانات المستخدمين (مؤقت للتصحيح)
@@ -542,7 +546,7 @@ namespace WFApp_Electronic_Scale
             metroProgressSpinner.Spinning = show;
         }
 
-    
+
 
 
 

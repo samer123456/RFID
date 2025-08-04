@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="MasarakApi.cs" />
     <Compile Include="MetroTextBoxExtensions.cs" />
+    <Compile Include="UHF.cs" />
     <Compile Include="UserManagementForm.cs">
       <SubType>Form</SubType>
     </Compile>

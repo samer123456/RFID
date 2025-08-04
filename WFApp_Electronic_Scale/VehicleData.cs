@@ -12,4 +12,9 @@ namespace WFApp_Electronic_Scale
         public string TagId { get; set; }
         public double VehicleWeight { get; set; }
     }
+    public class UhfModel
+    {
+        public string Command { get; set; } = string.Empty;    
+        public string Tag { get; set; } = string.Empty;    
+    }
 }
