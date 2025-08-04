@@ -74,6 +74,7 @@
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MasarakApi.cs" />
     <Compile Include="MetroTextBoxExtensions.cs" />
     <Compile Include="UserManagementForm.cs">
       <SubType>Form</SubType>
@@ -82,6 +83,7 @@
     <Compile Include="TestLogin.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DatabaseSettings.cs" />
+    <Compile Include="VehicleData.cs" />
     <Compile Include="WeightHistoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
