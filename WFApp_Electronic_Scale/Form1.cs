@@ -44,7 +44,7 @@ namespace WFApp_Electronic_Scale
             port = new SerialPort();
             port.DataReceived += Port_DataReceived;
             UHF.OnTagReceived += UHF_OnTagReceived;
-            //UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
+            UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
 
             // تحميل إعدادات قاعدة البيانات
             DatabaseSettings.LoadSettings();
@@ -145,6 +145,10 @@ namespace WFApp_Electronic_Scale
                     }
                     //Log("Closing port...");
                     //port.Close();
+
+
+                    //MasarakApi masarakApi = new MasarakApi();
+                    //masarakApi.GetPlateNumberAsync("searchTag", "112233", "f39a13dc264037d", "42ec5dcfc6e0d58");
                 }
                 catch (Exception ex)
                 {
@@ -371,8 +375,8 @@ namespace WFApp_Electronic_Scale
         {
             CityLoader cityLoader = new CityLoader(cmbCities);
             // UHF.Init();
-            MasarakApi masarakApi = new MasarakApi();
-            masarakApi.GetPlateNumberAsync("searchTag", "112233", "f39a13dc264037d", "42ec5dcfc6e0d58");
+            //MasarakApi masarakApi = new MasarakApi();
+            //masarakApi.GetPlateNumberAsync("searchTag", 112233, "f39a13dc264037d", "42ec5dcfc6e0d58");
             //await cityLoader.LoadCitiesAsync();
 
             // اختبار بيانات المستخدمين (مؤقت للتصحيح)
@@ -552,7 +556,7 @@ namespace WFApp_Electronic_Scale
         }
 
         // معالج الحدث عند استلام Tag ID
-        private void UHF_OnTagReceived(int tagId)
+        private async void UHF_OnTagReceived(int tagId)
         {
             // تأكد من التنفيذ في خيط واجهة المستخدم
             if (InvokeRequired)
@@ -560,8 +564,12 @@ namespace WFApp_Electronic_Scale
                 Invoke(new Action<int>(UHF_OnTagReceived), tagId);
                 return;
             }
-            // عرض القيمة في عنصر واجهة المستخدم (مثل Label أو TextBox)
+
+            MasarakApi masarakApi = new MasarakApi();
+            var platNumber = await masarakApi.GetPlateNumberAsync("searchTag", tagId, "f39a13dc264037d", "42ec5dcfc6e0d58");
+
             metroLabelPlateNumper.Text = " Tag Id: " + tagId.ToString();
+            mLblPlateNumber.Text = "رقم اللوحة: " + platNumber;
         }
 
 

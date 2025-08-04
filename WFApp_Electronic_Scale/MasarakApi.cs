@@ -96,7 +96,7 @@ namespace WFApp_Electronic_Scale
                 return null;
             }
         }
-        public async Task<string> GetPlateNumberAsync(string command, string tag, string username, string password)
+        public async Task<string> GetPlateNumberAsync(string command, int tag, string username, string password)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -108,7 +108,7 @@ namespace WFApp_Electronic_Scale
 
                     // بناء عنوان URL مع معاملات الاستعلام
                     var uriBuilder = new UriBuilder(apiUrl);
-                    string query = $"command={Uri.EscapeDataString(command)}&tag_id={Uri.EscapeDataString(tag)}";
+                    string query = $"command={Uri.EscapeDataString(command)}&tag_id={Uri.EscapeDataString(tag.ToString())}";
 
                     // التعامل مع العلامات الموجودة مسبقًا في URL
                     if (uriBuilder.Query != null && uriBuilder.Query.Length > 1)

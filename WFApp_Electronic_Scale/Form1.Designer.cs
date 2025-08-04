@@ -73,6 +73,7 @@ namespace WFApp_Electronic_Scale
             this.metroLabelInfo = new MetroFramework.Controls.MetroLabel();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.metroLabelPlateNumper = new MetroFramework.Controls.MetroLabel();
+            this.mLblPlateNumber = new MetroFramework.Controls.MetroLabel();
             this.gbPort.SuspendLayout();
             this.gbSetting.SuspendLayout();
             this.gblog.SuspendLayout();
@@ -471,10 +472,16 @@ namespace WFApp_Electronic_Scale
             resources.ApplyResources(this.metroLabelPlateNumper, "metroLabelPlateNumper");
             this.metroLabelPlateNumper.Name = "metroLabelPlateNumper";
             // 
+            // mLblPlateNumber
+            // 
+            resources.ApplyResources(this.mLblPlateNumber, "mLblPlateNumber");
+            this.mLblPlateNumber.Name = "mLblPlateNumber";
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.mLblPlateNumber);
             this.Controls.Add(this.metroLabelPlateNumper);
             this.Controls.Add(this.metroLabel2);
             this.Controls.Add(this.metroLabelInfo);
@@ -531,5 +538,6 @@ namespace WFApp_Electronic_Scale
         private MetroLabel metroLabelInfo;
         private MetroLabel metroLabel2;
         private MetroLabel metroLabelPlateNumper;
+        private MetroLabel mLblPlateNumber;
     }
 }
