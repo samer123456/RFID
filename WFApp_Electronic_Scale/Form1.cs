@@ -17,6 +17,7 @@ using MetroFramework.Controls;
 using MetroFramework.Components;
 using System.Drawing;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 
 namespace WFApp_Electronic_Scale
@@ -45,7 +46,13 @@ namespace WFApp_Electronic_Scale
             port = new SerialPort();
             port.DataReceived += Port_DataReceived;
             UHF.OnTagReceived += UHF_OnTagReceived;
+            
             UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
+
+
+
+            // استدعاء الدالة عند تحميل النموذج
+            //this.Load += async (sender, e) => await LoadDataAndShowPopup();
 
             // تحميل إعدادات قاعدة البيانات
             DatabaseSettings.LoadSettings();
@@ -571,9 +578,51 @@ namespace WFApp_Electronic_Scale
 
             metroLabelPlateNumper.Text = " Tag Id: " + tagId.ToString();
             mLblPlateNumber.Text = "رقم اللوحة: " + platNumber;
+
+            // إنشاء وعرض Popup
+            var popup = new FormPopup();
+            popup.SetData("بيانات API", platNumber);
+
+            // يمكنك استخدام ShowDialog لعرضه كنافذة مشروطة
+            popup.ShowDialog();
+
+            // أو استخدام Show لعرضه كنافذة غير مشروطة
+            // popup.Show();
         }
 
+        private async void btnShowPopup_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MasarakApi masarakApi = new MasarakApi();
+                var platNumber = await masarakApi.GetPlateNumberAsync("searchTag", 112233);
 
+                //metroLabelPlateNumper.Text = " Tag Id: " + tagId.ToString();
+                //mLblPlateNumber.Text = "رقم اللوحة: " + platNumber;
+
+
+                // إظهار مؤشر تحميل إذا لزم الأمر
+                Cursor = Cursors.WaitCursor;
+
+                // إنشاء وعرض Popup
+                var popup = new FormPopup();
+                popup.SetData("بيانات API", platNumber);
+
+                // يمكنك استخدام ShowDialog لعرضه كنافذة مشروطة
+                popup.ShowDialog();
+
+                // أو استخدام Show لعرضه كنافذة غير مشروطة
+                // popup.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ: {ex.Message}");
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
 
 
 
