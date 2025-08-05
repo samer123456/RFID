@@ -195,7 +195,7 @@ namespace WFApp_Electronic_Scale
                     username = string.IsNullOrWhiteSpace(settings.Username) ? username : settings.Username;
                     password = string.IsNullOrWhiteSpace(settings.Password) ? password : settings.Password;
 
-                    MessageBox.Show($"Port Configured: {apiUrl}, {username}, {password}");
+                    //MessageBox.Show($"Port Configured: {apiUrl}, {username}, {password}");
                 }
                 else
                 {
