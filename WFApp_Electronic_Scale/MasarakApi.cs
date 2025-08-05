@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.IO;
+using System.IO.Ports;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,8 +14,15 @@ namespace WFApp_Electronic_Scale
 {
     public class MasarakApi
     {
-        private string apiUrl = "https://stage-masarak.frappe.cloud/api/method/get_trip_by_tag_id";// "http://60.253.213.6:8091/op";
+        private static string settingFilePath = "setting.json";
+        private static string apiUrl = "https://stage-masarak.frappe.cloud/api/method/get_trip_by_tag_id";// "http://60.253.213.6:8091/op";
+        private static string username = "f39a13dc264037d";
+        private static string password = "42ec5dcfc6e0d58";
 
+        public MasarakApi()
+        {
+            GetSettingFromFile();
+        }
         public async Task<string> GetPlateNumberAsync()
         {
             using (HttpClient client = new HttpClient())
@@ -96,7 +105,7 @@ namespace WFApp_Electronic_Scale
                 return null;
             }
         }
-        public async Task<string> GetPlateNumberAsync(string command, int tag, string username, string password)
+        public async Task<string> GetPlateNumberAsync(string command, int tag)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -171,6 +180,31 @@ namespace WFApp_Electronic_Scale
                     MessageBox.Show($"Error fetching plate number: {ex.Message}");
                 }
                 return null;
+            }
+        }
+        private static void GetSettingFromFile()
+        {
+            try
+            {
+                if (File.Exists(settingFilePath))
+                {
+                    string json = File.ReadAllText(settingFilePath);
+                    var settings = JsonConvert.DeserializeObject<SettingsModel>(json);
+
+                    apiUrl = string.IsNullOrWhiteSpace(settings.ApiUrl) ? apiUrl : settings.ApiUrl;
+                    username = string.IsNullOrWhiteSpace(settings.Username) ? username : settings.Username;
+                    password = string.IsNullOrWhiteSpace(settings.Password) ? password : settings.Password;
+
+                    MessageBox.Show($"Port Configured: {apiUrl}, {username}, {password}");
+                }
+                else
+                {
+                    MessageBox.Show("ملف الاعدادات غير موجود!", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
     }

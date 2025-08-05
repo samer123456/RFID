@@ -31,6 +31,7 @@ namespace WFApp_Electronic_Scale
         //SerialPort port = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
 
         string logFilePath = "log.txt";
+        string settingFilePath = "setting.json";
         private string ReadData = "";
         public Form1()
         {
@@ -566,7 +567,7 @@ namespace WFApp_Electronic_Scale
             }
 
             MasarakApi masarakApi = new MasarakApi();
-            var platNumber = await masarakApi.GetPlateNumberAsync("searchTag", tagId, "f39a13dc264037d", "42ec5dcfc6e0d58");
+            var platNumber = await masarakApi.GetPlateNumberAsync("searchTag", tagId);
 
             metroLabelPlateNumper.Text = " Tag Id: " + tagId.ToString();
             mLblPlateNumber.Text = "رقم اللوحة: " + platNumber;
