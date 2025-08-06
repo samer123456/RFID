@@ -579,34 +579,20 @@ namespace WFApp_Electronic_Scale
             metroLabelPlateNumper.Text = " Tag Id: " + tagId.ToString();
             mLblPlateNumber.Text = "رقم اللوحة: " + platNumber;
 
-            // إنشاء وعرض Popup
-            var popup = new FormPopup();
-            popup.SetData("بيانات API", platNumber);
 
-            // يمكنك استخدام ShowDialog لعرضه كنافذة مشروطة
-            popup.ShowDialog();
-
-            // أو استخدام Show لعرضه كنافذة غير مشروطة
-            // popup.Show();
+            //btnShowPopup_Click(tagId, platNumber);
         }
 
-        private async void btnShowPopup_Click(object sender, EventArgs e)
+        private async void btnShowPopup_Click(int tagId, string platNumber)
         {
             try
             {
-                MasarakApi masarakApi = new MasarakApi();
-                var platNumber = await masarakApi.GetPlateNumberAsync("searchTag", 112233);
-
-                //metroLabelPlateNumper.Text = " Tag Id: " + tagId.ToString();
-                //mLblPlateNumber.Text = "رقم اللوحة: " + platNumber;
-
-
                 // إظهار مؤشر تحميل إذا لزم الأمر
                 Cursor = Cursors.WaitCursor;
 
                 // إنشاء وعرض Popup
                 var popup = new FormPopup();
-                popup.SetData("بيانات API", platNumber);
+                popup.SetData("بيانات API", "Tag Id:" + tagId.ToString() + " ---> Plate Number: " +  platNumber);
 
                 // يمكنك استخدام ShowDialog لعرضه كنافذة مشروطة
                 popup.ShowDialog();
@@ -623,11 +609,6 @@ namespace WFApp_Electronic_Scale
                 Cursor = Cursors.Default;
             }
         }
-
-
-
-
-
 
 
         //// استخدامها في العمليات

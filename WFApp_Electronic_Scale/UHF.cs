@@ -16,6 +16,9 @@ namespace WFApp_Electronic_Scale
         const int FRAME_LENGTH = 24;
         public static event Action<int> OnTagReceived; // حدث جديد
         private static string settingFilePath = "setting.json";
+        private static int _lastTagId = -1; // متغير لتخزين آخر قيمة تم قراءتها
+        private static DateTime _lastReadTime = DateTime.MinValue;
+        private static readonly TimeSpan _readInterval = TimeSpan.FromSeconds(1); // فترة زمنية بين القراءات
 
 
         // دالة لتهيئة المنفذ التسلسلي
@@ -152,12 +155,19 @@ namespace WFApp_Electronic_Scale
                         ? (tagBytes[0] << 16) | (tagBytes[1] << 8) | tagBytes[2]
                         : BitConverter.ToInt32(tagBytes, 0);
 
-                    // إطلاق الحدث مع قيمة الـ Tag ID
-                    OnTagReceived?.Invoke(tagId);
 
-                    Console.WriteLine("🆔 Tag Hex: " + BitConverter.ToString(tagBytes).Replace("-", ""));
-                    Console.WriteLine("🆔 Tag ID: " + tagId);
+                    // التحقق من تغير القيمة والفاصل الزمني
+                    if (tagId != _lastTagId && (DateTime.Now - _lastReadTime) > _readInterval)
+                    {
+                        _lastTagId = tagId;
+                        _lastReadTime = DateTime.Now;
 
+                        // إطلاق الحدث مع قيمة الـ Tag ID
+                        OnTagReceived?.Invoke(tagId);
+
+                        Console.WriteLine("🆔 Tag Hex: " + BitConverter.ToString(tagBytes).Replace("-", ""));
+                        Console.WriteLine("🆔 Tag ID: " + tagId);
+                    }
                     // Trim the buffer
                     int remaining = buffer.Length - (startIdx + FRAME_LENGTH);
                     byte[] newBuf = new byte[remaining];
