@@ -11,11 +11,22 @@ namespace WFApp_Electronic_Scale
     // FormPopup.cs
     public partial class FormPopup : MetroForm
     {
+        private System.Windows.Forms.Timer closeTimer;
         private Label lblContent;
 
         public FormPopup()
         {
             InitializeComponent();
+            InitializeAutoCloseTimer();
+        }
+
+        private void InitializeAutoCloseTimer()
+        {
+            closeTimer = new System.Windows.Forms.Timer
+            {
+                Interval = 5000 // 5 ثواني
+            };
+            closeTimer.Tick += (sender, e) => ClosePopup();
         }
 
         // دالة لتعيين البيانات في عناصر التحكم
@@ -23,8 +34,19 @@ namespace WFApp_Electronic_Scale
         {
             this.Text = title;
             lblContent.Text = content;
+            closeTimer.Start();
         }
-
+        private void ClosePopup()
+        {
+            closeTimer.Stop();
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            closeTimer?.Dispose();
+        }
         private void InitializeComponent()
         {
             this.lblContent = new System.Windows.Forms.Label();
