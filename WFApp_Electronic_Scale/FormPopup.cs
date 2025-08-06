@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MetroFramework.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using System.Windows.Forms;
 namespace WFApp_Electronic_Scale
 {
     // FormPopup.cs
-    public partial class FormPopup : Form
+    public partial class FormPopup : MetroForm
     {
         private Label lblContent;
 
@@ -40,7 +41,7 @@ namespace WFApp_Electronic_Scale
             // 
             // FormPopup
             // 
-            this.ClientSize = new System.Drawing.Size(282, 253);
+            this.ClientSize = new System.Drawing.Size(845, 265);
             this.Controls.Add(this.lblContent);
             this.Name = "FormPopup";
             this.ResumeLayout(false);

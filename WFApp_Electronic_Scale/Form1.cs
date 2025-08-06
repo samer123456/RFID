@@ -46,7 +46,7 @@ namespace WFApp_Electronic_Scale
             port = new SerialPort();
             port.DataReceived += Port_DataReceived;
             UHF.OnTagReceived += UHF_OnTagReceived;
-            
+
             UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
 
 
@@ -580,35 +580,83 @@ namespace WFApp_Electronic_Scale
             mLblPlateNumber.Text = "رقم اللوحة: " + platNumber;
 
 
-            //btnShowPopup_Click(tagId, platNumber);
+
+            ShowPopup(tagId, platNumber);
         }
 
-        private async void btnShowPopup_Click(int tagId, string platNumber)
+        private void ShowPopup(int tagId, string platNumber)
         {
             try
             {
-                // إظهار مؤشر تحميل إذا لزم الأمر
-                Cursor = Cursors.WaitCursor;
+                if (this.IsDisposed || this.Disposing) return;
 
-                // إنشاء وعرض Popup
-                var popup = new FormPopup();
-                popup.SetData("بيانات API", "Tag Id:" + tagId.ToString() + " ---> Plate Number: " +  platNumber);
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new Action<int, string>(ShowPopup), tagId, platNumber);
+                    return;
+                }
 
-                // يمكنك استخدام ShowDialog لعرضه كنافذة مشروطة
-                popup.ShowDialog();
 
-                // أو استخدام Show لعرضه كنافذة غير مشروطة
-                // popup.Show();
+                using (var popup = new FormPopup())
+                {
+                    // تأكد من أن دالة SetData موجودة وتعمل بشكل صحيح
+                    popup.SetData("بيانات API", $"Tag Id: {tagId} ---> Plate Number: {platNumber}");
+
+                    // استخدم ShowDialog بدلاً من Show لتجنب مشاكل الإغلاق
+                    popup.ShowDialog(this); // تمرير this كمالك للنافذة
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // تجاهل إذا كان النموذج قد تم التخلص منه
+                return;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"حدث خطأ: {ex.Message}");
+                MessageBox.Show(this, $"حدث خطأ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                Cursor = Cursors.Default;
+                if (!this.IsDisposed && !this.Disposing)
+                {
+                    //this.Cursor = Cursors.Default;
+                }
             }
         }
+
+        //private async void ShowPopup(int tagId, string platNumber)
+        //{
+        //    if (this.InvokeRequired)
+        //    {
+        //        this.Invoke(new Action<int, string>(ShowPopup), tagId, platNumber);
+        //        return;
+        //    }
+        //    try
+        //    {
+        //        // إظهار مؤشر تحميل إذا لزم الأمر
+        //        this.Cursor = Cursors.WaitCursor;
+
+        //        // إنشاء وعرض Popup
+        //        var popup = new FormPopup();
+        //        popup.SetData("بيانات API", "Tag Id:" + tagId.ToString() + " ---> Plate Number: " + platNumber);
+
+        //        // يمكنك استخدام ShowDialog لعرضه كنافذة مشروطة
+        //        popup.ShowDialog();
+
+        //        // أو استخدام Show لعرضه كنافذة غير مشروطة
+        //        // popup.Show();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"حدث خطأ: {ex.Message}");
+        //    }
+        //    finally
+        //    {
+        //        this.Cursor = Cursors.Default;
+        //    }
+        //}
+
 
 
         //// استخدامها في العمليات
