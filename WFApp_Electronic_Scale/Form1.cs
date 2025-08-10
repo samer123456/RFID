@@ -146,11 +146,11 @@ namespace WFApp_Electronic_Scale
                     port.DiscardInBuffer();
                     port.DiscardOutBuffer();
 
-                    while (string.IsNullOrWhiteSpace(ReadData))
-                    {
-                        VeriTalepGonder();
-                        System.Threading.Thread.Sleep(1000); // cihazın cevap vermesi için bekleme
-                    }
+                    //while (string.IsNullOrWhiteSpace(ReadData))
+                    //{
+                    //    VeriTalepGonder();
+                    //    System.Threading.Thread.Sleep(1000); // cihazın cevap vermesi için bekleme
+                    //}
                     //Log("Closing port...");
                     //port.Close();
 
@@ -162,14 +162,15 @@ namespace WFApp_Electronic_Scale
                 {
                     MessageBox.Show("Error: " + ex.Message);
                 }
-                finally
-                {
-                    if (port.IsOpen)
-                    {
-                        port.Close();
-                        Log("Closed port...");
-                    }
-                }
+                // todo to close port if need
+                //finally
+                //{
+                //    if (port.IsOpen)
+                //    {
+                //        port.Close();
+                //        Log("Closed port...");
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -215,8 +216,19 @@ namespace WFApp_Electronic_Scale
 
         private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            if (port.IsOpen)
+            {
+                while (string.IsNullOrWhiteSpace(ReadData))
+                {
+                    VeriTalepGonder();
+                    System.Threading.Thread.Sleep(1000); // cihazın cevap vermesi için bekleme
+                }
+            }
+
             if (port.IsOpen && port.BytesToRead != 0)
             {
+
+
                 ReadData = port.ReadExisting();
                 string weight = ReadWeight(ReadData);
                 Invoke(new Action(() =>
@@ -224,6 +236,11 @@ namespace WFApp_Electronic_Scale
                     txtWeight.Text = weight;
                     Log("received from Port_DataReceived string: " + weight);
                 }));
+
+                // حفظ الوزن في قاعدة البيانات
+                SaveWeightToDatabase(ReadData);
+
+                //send  weight to api
             }
         }
         private string ReadWeight(string weight)
@@ -260,10 +277,7 @@ namespace WFApp_Electronic_Scale
                         ReadData = weight.Substring(26, 6);
                         txtWeight.Text = ReadData;
 
-                        // حفظ الوزن في قاعدة البيانات
-                        SaveWeightToDatabase(ReadData);
 
-                        //ReadData = "";
                         port.Write(Convert.ToChar(4).ToString());
                     }
                 }
@@ -378,6 +392,7 @@ namespace WFApp_Electronic_Scale
                 MessageBox.Show("Error : " + EX.Message);
             }
         }
+
 
         private async void Form1_Load(object sender, EventArgs e)
         {
@@ -578,8 +593,8 @@ namespace WFApp_Electronic_Scale
 
             metroLabelPlateNumper.Text = " Tag Id: " + tagId.ToString();
             mLblPlateNumber.Text = "رقم اللوحة: " + platNumber;
-
-
+            // todo to send new weight triger 
+            ReadData = "";
 
             ShowPopup(tagId, platNumber);
         }
