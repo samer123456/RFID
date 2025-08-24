@@ -25,7 +25,7 @@ namespace WFApp_Electronic_Scale
     public partial class Form1 : MetroForm
     {
         private MetroStyleManager metroStyleManager;
-        private MetroButton btnSettings;
+        private MetroButton  btnSettings;
         private MetroProgressSpinner metroProgressSpinner;
         private SerialPort port;
         private DatabaseManager dbManager;
