@@ -79,6 +79,12 @@
     </Compile>
     <Compile Include="MasarakApi.cs" />
     <Compile Include="MetroTextBoxExtensions.cs" />
+    <Compile Include="SplashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashForm.Designer.cs">
+      <DependentUpon>SplashForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="UHF.cs" />
     <Compile Include="UserManagementForm.cs">
       <SubType>Form</SubType>
@@ -117,6 +123,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SplashForm.resx">
+      <DependentUpon>SplashForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WeightHistoryForm.resx">
       <DependentUpon>WeightHistoryForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -142,6 +151,11 @@
     <Content Include="MetroFramework.txt" />
     <None Include="Resources\GWY_Logo.png" />
     <None Include="Resources\Transforat.png" />
+    <None Include="Resources\images.jpg" />
+    <None Include="Resources\download %283%29.jpeg" />
+    <None Include="Resources\download %282%29.jpeg" />
+    <None Include="Resources\download %281%29.jpeg" />
+    <None Include="Resources\download.jpeg" />
     <Content Include="scale_balance_icon_137224.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

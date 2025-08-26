@@ -16,19 +16,45 @@ namespace WFApp_Electronic_Scale
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
+            Application.ThreadException += (s, e) =>
+            {
+                MessageBox.Show($"Unhandled UI exception: {e.Exception.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            {
+                var ex = e.ExceptionObject as Exception;
+                if (ex != null)
+                {
+                    MessageBox.Show($"Unhandled exception: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
+
+            // عرض شاشة ترحيبية قصيرة
+            using (var splash = new SplashForm())
+            {
+                splash.ShowDialog();
+            }
+
             // عرض نموذج تسجيل الدخول أولاً
             using (var loginForm = new LoginForm())
             {
-                if (loginForm.ShowDialog() == DialogResult.OK)
+                var result = loginForm.ShowDialog();
+                if (result == DialogResult.OK)
                 {
-                    // إذا كان تسجيل الدخول ناجح، قم بتشغيل التطبيق الرئيسي
-                    Application.Run(new Form1());
+                    try
+                    {
+                        Application.Run(new Form1());
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"فشل تشغيل الواجهة الرئيسية: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 else
                 {
-                    // إذا تم إلغاء تسجيل الدخول، أغلق التطبيق
-                    Application.Exit();
+                    // لا تغلق بصمت، أعرض سبب الإغلاق
+                    MessageBox.Show("تم إلغاء تسجيل الدخول.", "إغلاق", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
