@@ -103,6 +103,16 @@ namespace WFApp_Electronic_Scale.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap E105QE0A {
+            get {
+                object obj = ResourceManager.GetObject("E105QE0A", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap GWY_Logo {
             get {
                 object obj = ResourceManager.GetObject("GWY_Logo", resourceCulture);

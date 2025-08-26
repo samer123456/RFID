@@ -51,7 +51,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImage = global::WFApp_Electronic_Scale.Properties.Resources.download__3_;
+            this.BackgroundImage = global::WFApp_Electronic_Scale.Properties.Resources.E105QE0A;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(664, 446);
             this.ControlBox = false;

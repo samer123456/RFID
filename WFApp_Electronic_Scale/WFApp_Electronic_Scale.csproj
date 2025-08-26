@@ -156,6 +156,7 @@
     <None Include="Resources\download %282%29.jpeg" />
     <None Include="Resources\download %281%29.jpeg" />
     <None Include="Resources\download.jpeg" />
+    <None Include="Resources\E105QE0A.jpg" />
     <Content Include="scale_balance_icon_137224.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
