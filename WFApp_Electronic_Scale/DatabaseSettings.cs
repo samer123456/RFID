@@ -12,7 +12,8 @@ namespace WFApp_Electronic_Scale
         public static bool UseWindowsAuthentication { get; set; } = true;
 
         // إعدادات الجدول
-        public static string TableName { get; set; } = "Weights";
+        public static string TableName { get; set; } = "Tartim1";
+        public static string TableName2 { get; set; } = "Tartim2";
         public static int MaxHistoryRecords { get; set; } = 1000;
 
         // إعدادات التطبيق

@@ -1,11 +1,9 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WFApp_Electronic_Scale.Properties" GeneratedClassName="Settings">
+  <Profiles />
   <Settings>
     <Setting Name="ServerName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">DESKTOP-9KUID8E</Value>
+      <Value Profile="(Default)">.</Value>
     </Setting>
     <Setting Name="DatabaseName" Type="System.String" Scope="User">
       <Value Profile="(Default)">WeightScaleDB</Value>
@@ -17,7 +15,7 @@
       <Value Profile="(Default)">123</Value>
     </Setting>
     <Setting Name="UseWindowsAuth" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="AutoSaveWeight" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -26,7 +24,7 @@
       <Value Profile="(Default)">KG</Value>
     </Setting>
     <Setting Name="MaxHistoryRecords" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1000</Value>
+      <Value Profile="(Default)">100000000</Value>
     </Setting>
     <Setting Name="LogDatabaseOperations" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

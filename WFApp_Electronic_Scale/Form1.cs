@@ -47,7 +47,7 @@ namespace WFApp_Electronic_Scale
             port.DataReceived += Port_DataReceived;
             UHF.OnTagReceived += UHF_OnTagReceived;
 
-            UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
+            //UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
 
 
 
@@ -141,7 +141,8 @@ namespace WFApp_Electronic_Scale
                 {
                     //port.ReadTimeout = 3000;
                     //port.ReceivedBytesThreshold = 40;
-                    port.Open();
+                    SaveWeightToDatabase("10");
+                    //port.Open();
                     Log("port is oppen");
                     port.DiscardInBuffer();
                     port.DiscardOutBuffer();
@@ -308,9 +309,10 @@ namespace WFApp_Electronic_Scale
                     string userId = LoginForm.CurrentUser?.UserId ?? "";
                     string userName = LoginForm.CurrentUser?.Username ?? "";
                     string city = cmbCities.SelectedItem?.ToString() ?? "";
-
+                    string kart = "test kart";
+                    string plaka = "test plaka"; //todo 
                     // حفظ الوزن في قاعدة البيانات
-                    if (dbManager.SaveWeight(weight, userId, userName, city))
+                    if (dbManager.SaveWeight(weight, userId, userName, city, kart, plaka))
                     {
                         if (DatabaseSettings.LogDatabaseOperations)
                         {

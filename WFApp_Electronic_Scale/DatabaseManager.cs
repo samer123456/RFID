@@ -80,7 +80,7 @@ namespace WFApp_Electronic_Scale
         }
 
         public bool SaveWeight(decimal weight, string userId = null, 
-            string userName = null, string city = null)
+            string userName = null, string city = null, string kart = null, string plaka = null)
         {
             try
             {
@@ -89,18 +89,25 @@ namespace WFApp_Electronic_Scale
                     connection.Open();
 
                     string insertQuery = @"
-                        INSERT INTO Weights (Weight, ReadingTime, UserId, UserName, City)
-                        VALUES (@Weight, , @ReadingTime, @UserId, @UserName, @City)";
+                        INSERT INTO Tartim1 (Kart, Plaka, Tartim1, Tarih1)
+                        VALUES (@Kart, @plaka, @Tartim1, @Tarih1)";
+
+                    //string insertQuery = @"
+                    //    INSERT INTO Tartim1 (Tartim1, Tarih1, UserId, UserName)
+                    //    VALUES (@Tartim1, @Tarih1, @UserId, @UserName)";
 
                     using (SqlCommand command = new SqlCommand(insertQuery, connection))
                     {
-                        command.Parameters.AddWithValue("@Weight", weight);
+                        command.Parameters.AddWithValue("@Kart", (object)kart ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@Plaka", (object)plaka ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@Tartim1", weight);
                         //command.Parameters.AddWithValue("@WeightUnit", weightUnit ?? DatabaseSettings.DefaultWeightUnit);
-                        command.Parameters.AddWithValue("@ReadingTime", DateTime.Now);
-                        command.Parameters.AddWithValue("@UserId", (object)userId ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@UserName", (object)userName ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@City", (object)city ?? DBNull.Value);
+                        command.Parameters.AddWithValue("@Tarih1", DateTime.Now);
+                        // command.Parameters.AddWithValue("@UserId", (object)userId ?? DBNull.Value);
+                        //command.Parameters.AddWithValue("@UserName", (object)userName ?? DBNull.Value);
+                        //command.Parameters.AddWithValue("@City", (object)city ?? DBNull.Value);
                         //command.Parameters.AddWithValue("@Notes", (object)notes ?? DBNull.Value);
+                       
 
                         command.ExecuteNonQuery();
                     }
