@@ -51,7 +51,7 @@ namespace WFApp_Electronic_Scale
             port.DataReceived += Port_DataReceived;
             UHF.OnTagReceived += UHF_OnTagReceived;
 
-            //UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
+            UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
 
 
 
@@ -377,15 +377,6 @@ namespace WFApp_Electronic_Scale
             string logEntry = DateTime.Now + " - " + message + Environment.NewLine;
             _logQueue.Enqueue(logEntry);
             // UI update code here...
-            //if (message.ToLower().Contains("error") || message.Contains("خطأ") || message.Contains("فشل"))
-            //{
-            //    txtLog.ForeColor = Color.Red;
-            //    txtLog.ReadOnly = true;
-            //    txtLog.UseCustomForeColor = true;
-            //    txtLog.Multiline = true;
-            //    txtLog.ScrollBars = ScrollBars.Vertical;
-            //}
-
             txtLog.AppendText(logEntry);
         }
 
