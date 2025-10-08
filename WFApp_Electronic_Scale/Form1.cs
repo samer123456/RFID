@@ -47,7 +47,7 @@ namespace WFApp_Electronic_Scale
             port.DataReceived += Port_DataReceived;
             UHF.OnTagReceived += UHF_OnTagReceived;
 
-            //UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
+            UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
 
 
 
@@ -141,7 +141,6 @@ namespace WFApp_Electronic_Scale
                 {
                     //port.ReadTimeout = 3000;
                     //port.ReceivedBytesThreshold = 40;
-                    SaveWeightToDatabase("10");
                     //port.Open();
                     Log("port is oppen");
                     port.DiscardInBuffer();
@@ -599,6 +598,8 @@ namespace WFApp_Electronic_Scale
             ReadData = "";
 
             ShowPopup(tagId, platNumber);
+            SaveWeightToDatabase(tagId.ToString()); // حفظ رقم اللوحة في قاعدة البيانات
+
         }
 
         private void ShowPopup(int tagId, string platNumber)
