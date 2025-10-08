@@ -267,6 +267,7 @@ namespace WFApp_Electronic_Scale
             // 
             // 
             // 
+            this.txtLog.ReadOnly = true;
             this.txtLog.CustomButton.Image = ((System.Drawing.Image)(resources.GetObject("resource.Image5")));
             this.txtLog.CustomButton.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("resource.ImeMode5")));
             this.txtLog.CustomButton.Location = ((System.Drawing.Point)(resources.GetObject("resource.Location5")));

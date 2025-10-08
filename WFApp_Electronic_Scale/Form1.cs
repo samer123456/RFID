@@ -18,6 +18,7 @@ using MetroFramework.Components;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Collections.Concurrent;
 
 
 namespace WFApp_Electronic_Scale
@@ -34,6 +35,9 @@ namespace WFApp_Electronic_Scale
         string logFilePath = "log.txt";
         string settingFilePath = "setting.json";
         private string ReadData = "";
+        private readonly ConcurrentQueue<string> _logQueue = new ConcurrentQueue<string>();
+        private readonly CancellationTokenSource _logCts = new CancellationTokenSource();
+
         public Form1()
         {
             InitializeComponent();
@@ -47,7 +51,7 @@ namespace WFApp_Electronic_Scale
             port.DataReceived += Port_DataReceived;
             UHF.OnTagReceived += UHF_OnTagReceived;
 
-            UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
+            //UHF.Init(); // بدء الاستماع للمنفذ التسلسلي
 
 
 
@@ -70,6 +74,8 @@ namespace WFApp_Electronic_Scale
             {
                 Log("فشل في الاتصال بقاعدة البيانات");
             }
+
+            StartLogWorker();
         }
 
         private void InitializeDefaults()
@@ -142,7 +148,11 @@ namespace WFApp_Electronic_Scale
                     //port.ReadTimeout = 3000;
                     //port.ReceivedBytesThreshold = 40;
                     //port.Open();
-                    Log("port is oppen");
+                    if (port.IsOpen)
+                    {
+                        Log("port is oppen");
+
+                    }
                     port.DiscardInBuffer();
                     port.DiscardOutBuffer();
 
@@ -160,9 +170,11 @@ namespace WFApp_Electronic_Scale
                 }
                 catch (Exception ex)
                 {
+                    Log("Error: " + ex.Message.ToString());
                     MessageBox.Show("Error: " + ex.Message);
                 }
                 // todo to close port if need
+                //finally
                 //finally
                 //{
                 //    if (port.IsOpen)
@@ -208,9 +220,10 @@ namespace WFApp_Electronic_Scale
                 // Log("ReadTimeout" + port.ReadTimeout); // -1  انتظر للأبد حتى تصلك البيانات
             }
 
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("Error : " + EX.Message);
+                Log("Error: " + ex.Message.ToString());
+                MessageBox.Show("Error : " + ex.Message);
             }
         }
 
@@ -286,6 +299,7 @@ namespace WFApp_Electronic_Scale
             }
             catch (Exception ex)
             {
+                Log(ex.Message.ToString());
                 return ex.Message.ToString();
             }
         }
@@ -343,23 +357,36 @@ namespace WFApp_Electronic_Scale
         //}
 
 
+        private void StartLogWorker()
+        {
+            Task.Run(async () =>
+            {
+                while (!_logCts.Token.IsCancellationRequested)
+                {
+                    while (_logQueue.TryDequeue(out var entry))
+                    {
+                        File.AppendAllText(logFilePath, entry);
+                    }
+                    await Task.Delay(500);
+                }
+            });
+        }
+
         private void Log(string message)
         {
-            string logEntry = DateTime.Now + " - " + message + "\n";
+            string logEntry = DateTime.Now + " - " + message + Environment.NewLine;
+            _logQueue.Enqueue(logEntry);
+            // UI update code here...
+            //if (message.ToLower().Contains("error") || message.Contains("خطأ") || message.Contains("فشل"))
+            //{
+            //    txtLog.ForeColor = Color.Red;
+            //    txtLog.ReadOnly = true;
+            //    txtLog.UseCustomForeColor = true;
+            //    txtLog.Multiline = true;
+            //    txtLog.ScrollBars = ScrollBars.Vertical;
+            //}
 
-            // إضافة سطر جديد مع تمييز الأخطاء
-            if (message.Contains("Error") || message.Contains("خطأ") || message.Contains("فشل"))
-            {
-                txtLog.BackColor = Color.FromArgb(255, 230, 230);
-                txtLog.AppendText(logEntry, Color.Red);
-            }
-            else
-            {
-                txtLog.BackColor = Color.FromArgb(240, 240, 240);
-                txtLog.AppendText(logEntry, Color.Black);
-            }
-
-            File.AppendAllText(logFilePath, logEntry);
+            txtLog.AppendText(logEntry);
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
