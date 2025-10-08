@@ -82,14 +82,15 @@ namespace WFApp_Electronic_Scale
         public bool SaveWeight(decimal weight, string userId = null, 
             string userName = null, string city = null, string kart = null, string plaka = null)
         {
+            var TableName = DatabaseSettings.TableName;
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    string insertQuery = @"
-                        INSERT INTO Tartim1 (Kart, Plaka, Tartim1, Tarih1)
+                    string insertQuery = $@"
+                        INSERT INTO [{TableName}] (Kart, Plaka, Tartim1, Tarih1)
                         VALUES (@Kart, @plaka, @Tartim1, @Tarih1)";
 
                     //string insertQuery = @"
@@ -98,6 +99,7 @@ namespace WFApp_Electronic_Scale
 
                     using (SqlCommand command = new SqlCommand(insertQuery, connection))
                     {
+                        command.Parameters.AddWithValue("@TableName", TableName);
                         command.Parameters.AddWithValue("@Kart", (object)kart ?? DBNull.Value);
                         command.Parameters.AddWithValue("@Plaka", (object)plaka ?? DBNull.Value);
                         command.Parameters.AddWithValue("@Tartim1", weight);

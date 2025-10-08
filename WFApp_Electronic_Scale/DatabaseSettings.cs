@@ -12,8 +12,7 @@ namespace WFApp_Electronic_Scale
         public static bool UseWindowsAuthentication { get; set; } = true;
 
         // إعدادات الجدول
-        public static string TableName { get; set; } = "Tartim1";
-        public static string TableName2 { get; set; } = "Tartim2";
+        public static string TableName{ get; set; } = "Tartim1";
         public static int MaxHistoryRecords { get; set; } = 1000;
 
         // إعدادات التطبيق
@@ -69,7 +68,7 @@ namespace WFApp_Electronic_Scale
                 Properties.Settings.Default.DefaultWeightUnit = DefaultWeightUnit;
                 Properties.Settings.Default.MaxHistoryRecords = MaxHistoryRecords;
                 Properties.Settings.Default.LogDatabaseOperations = LogDatabaseOperations;
-                
+                Properties.Settings.Default.TableName = TableName;    
                 Properties.Settings.Default.Save();
             }
             catch (Exception ex)
@@ -95,6 +94,7 @@ namespace WFApp_Electronic_Scale
                 DefaultWeightUnit = Properties.Settings.Default.DefaultWeightUnit ?? "KG";
                 MaxHistoryRecords = Properties.Settings.Default.MaxHistoryRecords;
                 LogDatabaseOperations = Properties.Settings.Default.LogDatabaseOperations;
+                TableName = Properties.Settings.Default.TableName ?? "Tartim1";
             }
             catch (Exception ex)
             {
