@@ -67,7 +67,7 @@ namespace WFApp_Electronic_Scale
             // إنشاء قاعدة البيانات والجدول إذا لم تكن موجودة
             if (dbManager.TestConnection())
             {
-                dbManager.CreateDatabaseAndTable();
+                // dbManager.CreateDatabaseAndTable();
                 Log("تم الاتصال بقاعدة البيانات بنجاح");
             }
             else
@@ -227,31 +227,38 @@ namespace WFApp_Electronic_Scale
             }
         }
 
-        private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private async void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             if (port.IsOpen)
             {
                 while (string.IsNullOrWhiteSpace(ReadData))
                 {
                     VeriTalepGonder();
-                    System.Threading.Thread.Sleep(1000); // cihazın cevap vermesi için bekleme
+                    await Task.Delay(1000); // Use async delay instead of blocking sleep
                 }
             }
 
             if (port.IsOpen && port.BytesToRead != 0)
             {
-
-
                 ReadData = port.ReadExisting();
                 string weight = ReadWeight(ReadData);
-                Invoke(new Action(() =>
+
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        txtWeight.Text = weight;
+                        Log("received from Port_DataReceived string: " + weight);
+                    }));
+                }
+                else
                 {
                     txtWeight.Text = weight;
                     Log("received from Port_DataReceived string: " + weight);
-                }));
+                }
 
-                // حفظ الوزن في قاعدة البيانات
-                SaveWeightToDatabase(ReadData);
+                // حفظ الوزن في قاعدة البيانات - Use async method
+                await SaveWeightToDatabaseAsync(ReadData);
 
                 //send  weight to api
             }
@@ -260,16 +267,8 @@ namespace WFApp_Electronic_Scale
         {
             try
             {
-                //foreach (char c in weight)
-                //{
-                //    Log($"{c} - {(int)c}");
-                //}
-                //if (port.IsOpen /*&& port.BytesToRead != 0*/)
-                //{
-                // weight += port.ReadExisting();
                 Log("weight:" + weight);
-                Log("weight Lenght:" + weight.Length.ToString());
-
+                Log("weight Length:" + weight.Length.ToString());
                 if (weight == Convert.ToChar(5).ToString())
                 {
                     txtWeight.Text = "WRONG WEIGHING!  ";
@@ -297,14 +296,15 @@ namespace WFApp_Electronic_Scale
                 // }
                 return ReadData.ToString();
             }
+
             catch (Exception ex)
             {
-                Log(ex.Message.ToString());
-                return ex.Message.ToString();
+                Logger.Instance.Log($"Error reading weight: {ex.Message}", LogLevel.Error, ex);
+                return ex.Message;
             }
         }
 
-        private void SaveWeightToDatabase(string weightString)
+        private async Task SaveWeightToDatabaseAsync(string weightString)
         {
             try
             {
@@ -324,12 +324,12 @@ namespace WFApp_Electronic_Scale
                     string city = cmbCities.SelectedItem?.ToString() ?? "";
                     string kart = "test kart";
                     string plaka = "test plaka"; //todo 
-                    // حفظ الوزن في قاعدة البيانات
-                    if (dbManager.SaveWeight(weight, userId, userName, city, kart, plaka))
+
+                    // حفظ الوزن في قاعدة البيانات بشكل غير متزامن
+                    if (await dbManager.SaveWeightAsync(weight, userId, userName, city, kart, plaka))
                     {
                         if (DatabaseSettings.LogDatabaseOperations)
                         {
-                            /*{DatabaseSettings.DefaultWeightUnit}*/
                             Log($"تم حفظ الوزن: {weight}  في قاعدة البيانات");
                         }
                     }
@@ -347,6 +347,12 @@ namespace WFApp_Electronic_Scale
             {
                 Log($"خطأ في حفظ الوزن: {ex.Message}");
             }
+        }
+
+        private void SaveWeightToDatabase(string weightString)
+        {
+            // Keep synchronous version for backward compatibility
+            _ = Task.Run(async () => await SaveWeightToDatabaseAsync(weightString));
         }
 
         //private void Log(string message)
@@ -374,41 +380,79 @@ namespace WFApp_Electronic_Scale
 
         private void Log(string message)
         {
-            string logEntry = DateTime.Now + " - " + message + Environment.NewLine;
-            _logQueue.Enqueue(logEntry);
+            Logger.Instance.Log(message, LogLevel.Info);
+
             // UI update code here...
-            txtLog.AppendText(logEntry);
+            if (txtLog != null && !txtLog.IsDisposed)
+            {
+                string logEntry = DateTime.Now + " - " + message + Environment.NewLine;
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() => txtLog.AppendText(logEntry)));
+                }
+                else
+                {
+                    txtLog.AppendText(logEntry);
+                }
+            }
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (port != null && port.IsOpen == true)
+            try
             {
-                port.Close();
-                Log("Port closed.");
+                // Cancel log worker
+                _logCts?.Cancel();
+
+                // Close serial port
+                if (port != null && port.IsOpen)
+                {
+                    port.DataReceived -= Port_DataReceived;
+                    port.Close();
+                    port.Dispose();
+                    Log("Port closed.");
+                }
+
+                // Close UHF
+                UHF.Close();
+                UHF.OnTagReceived -= UHF_OnTagReceived;
+
+                // Dispose database manager
+                dbManager?.Dispose();
+
+                // Dispose logger
+                Logger.Instance.Dispose();
             }
-            port.DataReceived -= Port_DataReceived;
-            UHF.Close();
-            UHF.OnTagReceived -= UHF_OnTagReceived; // إلغاء الاشتراك
-            //base.OnFormClosing(e);
+            catch (Exception ex)
+            {
+                Logger.Instance.Log($"Error during form cleanup: {ex.Message}", LogLevel.Error, ex);
+            }
         }
 
         private void VeriTalepGonder()
         {
             try
             {
-                char CHR = Convert.ToChar(2);
-                string STRG1 = CHR.ToString();
-                CHR = Convert.ToChar(1);
-                string STRG2 = CHR.ToString();
-                string STRG3 = "DNG";
-                CHR = Convert.ToChar(13);
-                string STRG4 = CHR.ToString();
-                port.Write(STRG1 + STRG2 + STRG3 + STRG4);
+                //    char CHR = Convert.ToChar(2);
+                //    string STRG1 = CHR.ToString();
+                //    CHR = Convert.ToChar(1);
+                //    string STRG2 = CHR.ToString();
+                //    string STRG3 = "DNG";
+                //    CHR = Convert.ToChar(13);
+                //    string STRG4 = CHR.ToString();
+                //    port.Write(STRG1 + STRG2 + STRG3 + STRG4);
+                // Use configuration constants for better maintainability
+                string command = $"{AppConfiguration.SerialChars.STX}" +
+                               $"{AppConfiguration.SerialChars.SOH}" +
+                               "DNG" +
+                               $"{AppConfiguration.SerialChars.CR}";
+
+                port.Write(command);
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-                MessageBox.Show("Error : " + EX.Message);
+                Logger.Instance.Log($"Error sending command: {ex.Message}", LogLevel.Error, ex);
+                MessageBox.Show($"Error : {ex.Message}");
             }
         }
 
@@ -600,24 +644,36 @@ namespace WFApp_Electronic_Scale
         // معالج الحدث عند استلام Tag ID
         private async void UHF_OnTagReceived(int tagId)
         {
-            // تأكد من التنفيذ في خيط واجهة المستخدم
-            if (InvokeRequired)
+            try
             {
-                Invoke(new Action<int>(UHF_OnTagReceived), tagId);
-                return;
+                // تأكد من التنفيذ في خيط واجهة المستخدم
+                if (InvokeRequired)
+                {
+                    Invoke(new Action<int>(UHF_OnTagReceived), tagId);
+                    return;
+                }
+
+                // Use using statement for proper disposal
+                using (var masarakApi = new MasarakApi())
+                {
+                    var platNumber = await masarakApi.GetPlateNumberAsync("searchTag", tagId);
+
+                    // Update UI safely
+                    metroLabelPlateNumper.Text = " Tag Id: " + tagId.ToString();
+                    mLblPlateNumber.Text = "رقم اللوحة: " + platNumber;
+
+                    // Reset read data
+                    ReadData = "";
+
+                    // Show popup and save data
+                    await SaveWeightToDatabaseAsync(tagId.ToString()); // حفظ رقم اللوحة في قاعدة البيانات
+                    ShowPopup(tagId, platNumber);
+                }
             }
-
-            MasarakApi masarakApi = new MasarakApi();
-            var platNumber = await masarakApi.GetPlateNumberAsync("searchTag", tagId);
-
-            metroLabelPlateNumper.Text = " Tag Id: " + tagId.ToString();
-            mLblPlateNumber.Text = "رقم اللوحة: " + platNumber;
-            // todo to send new weight triger 
-            ReadData = "";
-
-            ShowPopup(tagId, platNumber);
-            SaveWeightToDatabase(tagId.ToString()); // حفظ رقم اللوحة في قاعدة البيانات
-
+            catch (Exception ex)
+            {
+                Log($"Error processing tag {tagId}: {ex.Message}");
+            }
         }
 
         private void ShowPopup(int tagId, string platNumber)

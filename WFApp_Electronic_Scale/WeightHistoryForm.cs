@@ -49,8 +49,8 @@ namespace WFApp_Electronic_Scale
             // 
             this.dgvWeights.AllowUserToAddRows = false;
             this.dgvWeights.AllowUserToDeleteRows = false;
-            this.dgvWeights.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvWeights.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvWeights.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvWeights.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -193,7 +193,7 @@ namespace WFApp_Electronic_Scale
             {
                 weightsData = dbManager.GetWeightsHistory();
                 dgvWeights.DataSource = weightsData;
-                
+
                 // تخصيص أسماء الأعمدة
                 if (dgvWeights.Columns.Count > 0)
                 {
@@ -224,13 +224,13 @@ namespace WFApp_Electronic_Scale
         {
             if (dgvWeights.SelectedRows.Count > 0)
             {
-                var result = MessageBox.Show("هل أنت متأكد من حذف السجل المحدد؟", "تأكيد الحذف", 
+                var result = MessageBox.Show("هل أنت متأكد من حذف السجل المحدد؟", "تأكيد الحذف",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                
+
                 if (result == DialogResult.Yes)
                 {
                     int weightId = Convert.ToInt32(dgvWeights.SelectedRows[0].Cells["Id"].Value);
-                    if (dbManager.DeleteWeight(weightId))
+                    if (dbManager.DeleteWeightAsync(weightId).GetAwaiter().GetResult())
                     {
                         MessageBox.Show("تم حذف السجل بنجاح", "نجح", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadWeightsHistory();
@@ -268,4 +268,4 @@ namespace WFApp_Electronic_Scale
             LoadWeightsHistory();
         }
     }
-} 
+}

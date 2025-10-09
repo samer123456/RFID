@@ -8,35 +8,50 @@ using WFApp_Electronic_Scale.Properties;
 
 namespace WFApp_Electronic_Scale
 {
-    public class UHF
+    public class UHF : IDisposable
     {
-        static SerialPort _serialPort;
-        static byte[] buffer = new byte[0];
-        static readonly byte[] FRAME_START = { 0x43, 0x54 }; // "CT"
-        const int FRAME_LENGTH = 24;
-        public static event Action<int> OnTagReceived; // حدث جديد
-        private static string settingFilePath = "setting.json";
-        private static int _lastTagId = -1; // متغير لتخزين آخر قيمة تم قراءتها
+        private static SerialPort _serialPort;
+        private static readonly List<byte> _buffer = new List<byte>(); // Use List instead of array for better performance
+        private static readonly byte[] FRAME_START = { 0x43, 0x54 }; // "CT"
+        private const int FRAME_LENGTH = 24;
+        private const int BUFFER_MAX_SIZE = 1024; // Prevent buffer from growing too large
+        public static event Action<int> OnTagReceived;
+        private static readonly string settingFilePath = "setting.json";
+        private static int _lastTagId = -1;
         private static DateTime _lastReadTime = DateTime.MinValue;
-        private static readonly TimeSpan _readInterval = TimeSpan.FromSeconds(1); // فترة زمنية بين القراءات
+        private static readonly TimeSpan _readInterval = TimeSpan.FromSeconds(1);
+        private static bool _disposed = false;
+        private static readonly object _lockObject = new object();
 
 
         // دالة لتهيئة المنفذ التسلسلي
         public static void Init()
         {
-            _serialPort = new SerialPort();
-            InitializeSettingsFile();
-            GetSettingFromFile();
-            _serialPort.Open();
-            _serialPort.DataReceived += DataReceivedHandler;
+            lock (_lockObject)
+            {
+                if (_disposed) return;
+
+                _serialPort = new SerialPort();
+                InitializeSettingsFile();
+                GetSettingFromFile();
+                _serialPort.Open();
+                _serialPort.DataReceived += DataReceivedHandler;
+            }
         }
 
         // دالة لإغلاق المنفذ
         public static void Close()
         {
-            if (_serialPort != null && _serialPort.IsOpen)
+            lock (_lockObject)
             {
-                _serialPort.Close();
+                if (_serialPort != null && _serialPort.IsOpen)
+                {
+                    _serialPort.DataReceived -= DataReceivedHandler;
+                    _serialPort.Close();
+                    _serialPort.Dispose();
+                    _serialPort = null;
+                }
+                _buffer.Clear();
             }
         }
         private static void GetSettingFromFile()
@@ -116,75 +131,80 @@ namespace WFApp_Electronic_Scale
                 File.WriteAllText(settingFilePath, json);
             }
         }
+
+
         private static void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
-            int bytesToRead = _serialPort.BytesToRead;
-            byte[] incomingData = new byte[bytesToRead];
-            _serialPort.Read(incomingData, 0, bytesToRead);
-
-            // Append to buffer
-            byte[] newBuffer = new byte[buffer.Length + incomingData.Length];
-            Buffer.BlockCopy(buffer, 0, newBuffer, 0, buffer.Length);
-            Buffer.BlockCopy(incomingData, 0, newBuffer, buffer.Length, incomingData.Length);
-            buffer = newBuffer;
-
-            while (buffer.Length >= FRAME_LENGTH)
+            lock (_lockObject)
             {
-                int startIdx = IndexOf(buffer, FRAME_START);
-                if (startIdx == -1)
+                if (_disposed || _serialPort == null || !_serialPort.IsOpen) return;
+
+                int bytesToRead = _serialPort.BytesToRead;
+                if (bytesToRead == 0) return;
+
+                byte[] incomingData = new byte[bytesToRead];
+                _serialPort.Read(incomingData, 0, bytesToRead);
+
+                // Append to buffer - prevent buffer from growing too large
+                if (_buffer.Count + incomingData.Length > BUFFER_MAX_SIZE)
                 {
-                    buffer = new byte[0];
-                    return;
+                    _buffer.Clear(); // Clear buffer if it gets too large
                 }
+                _buffer.AddRange(incomingData);
 
-                if (buffer.Length >= startIdx + FRAME_LENGTH)
+                while (_buffer.Count >= FRAME_LENGTH)
                 {
-                    byte[] frame = new byte[FRAME_LENGTH];
-                    Array.Copy(buffer, startIdx, frame, 0, FRAME_LENGTH);
-
-                    Console.WriteLine("🧱 Frame: " + BitConverter.ToString(frame).Replace("-", " "));
-
-                    byte[] tagRaw = new byte[4];
-                    Array.Copy(frame, 18, tagRaw, 0, 4);
-
-                    byte[] tagBytes = tagRaw[3] == 0x00
-                        ? new[] { tagRaw[0], tagRaw[1], tagRaw[2] }
-                        : tagRaw;
-
-                    int tagId = tagBytes.Length == 3
-                        ? (tagBytes[0] << 16) | (tagBytes[1] << 8) | tagBytes[2]
-                        : BitConverter.ToInt32(tagBytes, 0);
-
-
-                    // التحقق من تغير القيمة والفاصل الزمني
-                    if (tagId != _lastTagId && (DateTime.Now - _lastReadTime) > _readInterval)
+                    int startIdx = IndexOf(_buffer, FRAME_START);
+                    if (startIdx == -1)
                     {
-                        _lastTagId = tagId;
-                        _lastReadTime = DateTime.Now;
-
-                        // إطلاق الحدث مع قيمة الـ Tag ID
-                        OnTagReceived?.Invoke(tagId);
-
-                        Console.WriteLine("🆔 Tag Hex: " + BitConverter.ToString(tagBytes).Replace("-", ""));
-                        Console.WriteLine("🆔 Tag ID: " + tagId);
+                        _buffer.Clear();
+                        return;
                     }
-                    // Trim the buffer
-                    int remaining = buffer.Length - (startIdx + FRAME_LENGTH);
-                    byte[] newBuf = new byte[remaining];
-                    Array.Copy(buffer, startIdx + FRAME_LENGTH, newBuf, 0, remaining);
-                    buffer = newBuf;
 
-                }
-                else
-                {
-                    break;
+                    if (_buffer.Count >= startIdx + FRAME_LENGTH)
+                    {
+                        // Extract frame using Span for better performance
+                        var frame = _buffer.GetRange(startIdx, FRAME_LENGTH);
+
+                        Console.WriteLine("🧱 Frame: " + BitConverter.ToString(frame.ToArray()).Replace("-", " "));
+
+                        // Extract tag data more efficiently
+                        var tagRaw = frame.GetRange(18, 4);
+                        var tagBytes = tagRaw[3] == 0x00
+                            ? tagRaw.GetRange(0, 3)
+                            : tagRaw;
+
+                        int tagId = tagBytes.Count == 3
+                            ? (tagBytes[0] << 16) | (tagBytes[1] << 8) | tagBytes[2]
+                            : BitConverter.ToInt32(tagBytes.ToArray(), 0);
+
+                        // التحقق من تغير القيمة والفاصل الزمني
+                        if (tagId != _lastTagId && (DateTime.Now - _lastReadTime) > _readInterval)
+                        {
+                            _lastTagId = tagId;
+                            _lastReadTime = DateTime.Now;
+
+                            // إطلاق الحدث مع قيمة الـ Tag ID
+                            OnTagReceived?.Invoke(tagId);
+
+                            Console.WriteLine("🆔 Tag Hex: " + BitConverter.ToString(tagBytes.ToArray()).Replace("-", ""));
+                            Console.WriteLine("🆔 Tag ID: " + tagId);
+                        }
+
+                        // Remove processed data from buffer
+                        _buffer.RemoveRange(0, startIdx + FRAME_LENGTH);
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
             }
         }
 
-        private static int IndexOf(byte[] buffer, byte[] pattern)
+        private static int IndexOf(List<byte> buffer, byte[] pattern)
         {
-            for (int i = 0; i <= buffer.Length - pattern.Length; i++)
+            for (int i = 0; i <= buffer.Count - pattern.Length; i++)
             {
                 bool match = true;
                 for (int j = 0; j < pattern.Length; j++)
@@ -198,6 +218,24 @@ namespace WFApp_Electronic_Scale
                 if (match) return i;
             }
             return -1;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private static void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    Close();
+                }
+                _disposed = true;
+            }
         }
     }
 }
