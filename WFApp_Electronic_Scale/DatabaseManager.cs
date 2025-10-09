@@ -1,8 +1,10 @@
 using System;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Data.Entity.Infrastructure.Design.Executor;
 
 namespace WFApp_Electronic_Scale
 {
@@ -106,30 +108,65 @@ namespace WFApp_Electronic_Scale
 
 
 
-        public async Task<bool> SaveWeightAsync(decimal weight, string userId = null,
-            string userName = null, string city = null, string kart = null, string plaka = null)
+        public async Task<bool> SaveWeightAsync(int weight, string userId = null,
+     string userName = null, string city = null, string kart = null, string plaka = null)
         {
-            var TableName = DatabaseSettings.TableName;
+            var tableName = DatabaseSettings.TableName;
+            var kantar = DatabaseSettings.Kantar;
+            var acklama = DatabaseSettings.Acklama;
+            var kullanici = DatabaseSettings.Kullanici;
+
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (var db = new ScaleDbContext(connectionString, tableName))
                 {
-                    await connection.OpenAsync();
-
-                    string insertQuery = $@"
-                        INSERT INTO [{TableName}] (Kart, Plaka, Tartim1, Tarih1)
-                        VALUES (@Kart, @plaka, @Tartim1, @Tarih1)";
-
-                    using (SqlCommand command = new SqlCommand(insertQuery, connection))
+                    if (tableName.ToLower().Equals("tartim1"))
                     {
-                        command.Parameters.AddWithValue("@Kart", (object)kart ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@Plaka", (object)plaka ?? DBNull.Value);
-                        command.Parameters.AddWithValue("@Tartim1", weight);
-                        command.Parameters.AddWithValue("@Tarih1", DateTime.Now);
+                        var record = new WeightRecord1
+                        {
+                            Kart = string.IsNullOrWhiteSpace(kart) ? null : kart,
+                            Plaka = string.IsNullOrWhiteSpace(plaka) ? null : plaka,
+                            Tartim1 = weight,
+                            Tarih1 = DateTime.UtcNow,
+                            Saat1 = DateTime.UtcNow.TimeOfDay.ToString(),
+                            Sorgu1 = "todo",
+                            Sorgu2 = "todo",
+                            Kullanici1 = string.IsNullOrEmpty(userName) ? userName : kullanici,
+                            Aciklama1 = acklama,
+                            Kantar1 = kantar
+                        };
 
-                        await command.ExecuteNonQueryAsync();
+                        db.Weights1.Add(record);
+                    }
+                    else
+                    {
+
+                        var record = new WeightRecord2
+                        {
+                            // No =   ,
+                            Kart = string.IsNullOrWhiteSpace(kart) ? null : kart,
+                            Plaka = string.IsNullOrWhiteSpace(plaka) ? null : plaka,
+                            //Tartim1 = weight,
+                            Tartim2 = weight,
+                            //Net = ,
+                           // Tarih1 = ,
+                            //Saat1 = ,
+                            Tarih2 = DateTime.UtcNow,
+                            Saat2 = DateTime.UtcNow.TimeOfDay.ToString(),
+                            Sorgu1 = "todo",
+                            Sorgu2 = "todo",
+                            Kullanici2 = string.IsNullOrEmpty(userName) ? userName : kullanici,
+                            //Kullanici1 = ,
+                            Aciklama2 = acklama,
+                            Aciklama1 = acklama,
+                            Kantar2 = kantar,
+                            //Kantar1 = kantar
+                        };
+
+                        db.Weights2.Add(record);
                     }
 
+                    await db.SaveChangesAsync();
                     return true;
                 }
             }

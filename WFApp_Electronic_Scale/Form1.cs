@@ -316,7 +316,7 @@ namespace WFApp_Electronic_Scale
                 }
 
                 // تحويل النص إلى رقم عشري
-                if (decimal.TryParse(weightString, out decimal weight))
+                if (int.TryParse(weightString, out int weight))
                 {
                     // الحصول على معلومات المستخدم الحالي
                     string userId = LoginForm.CurrentUser?.UserId ?? "";

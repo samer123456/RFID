@@ -13,12 +13,12 @@ namespace WFApp_Electronic_Scale
         private static SerialPort _serialPort;
         private static readonly List<byte> _buffer = new List<byte>(); // Use List instead of array for better performance
         private static readonly byte[] FRAME_START = { 0x43, 0x54 }; // "CT"
-        private const int FRAME_LENGTH = 24;
+        private const int FRAME_LENGTH = 23; //todo before was 24
         private const int BUFFER_MAX_SIZE = 1024; // Prevent buffer from growing too large
         public static event Action<int> OnTagReceived;
         private static readonly string settingFilePath = "setting.json";
         private static int _lastTagId = -1;
-        private static DateTime _lastReadTime = DateTime.MinValue;
+        private static DateTime _lastReadTime = new DateTime(1753, 1, 1); //DateTime.MinValue;
         private static readonly TimeSpan _readInterval = TimeSpan.FromSeconds(1);
         private static bool _disposed = false;
         private static readonly object _lockObject = new object();
