@@ -8,6 +8,7 @@ namespace WFApp_Electronic_Scale
     public class DatabaseManager
     {
         private string connectionString;
+        private static readonly object _lock = new object();
 
         public DatabaseManager()
         {
