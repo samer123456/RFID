@@ -12,7 +12,10 @@ namespace WFApp_Electronic_Scale
         public static bool UseWindowsAuthentication { get; set; } = true;
 
         // إعدادات الجدول
-        public static string TableName{ get; set; } = "Tartim1";
+        public static string TableName { get; set; } = "Tartim1";
+        public static string Kullanici { get; set; } = "IT user";
+        public static string Acklama { get; set; } = "Auto weighing";
+        public static string Kantar { get; set; } = "FWB 04";
         public static int MaxHistoryRecords { get; set; } = 1000;
 
         // إعدادات التطبيق
@@ -38,7 +41,7 @@ namespace WFApp_Electronic_Scale
         /// <summary>
         /// تحديث إعدادات الاتصال
         /// </summary>
-        public static void UpdateConnectionSettings(string serverName, string databaseName, 
+        public static void UpdateConnectionSettings(string serverName, string databaseName,
             string username = null, string password = null, bool useWindowsAuth = false)
         {
             ServerName = serverName;
@@ -68,12 +71,15 @@ namespace WFApp_Electronic_Scale
                 Properties.Settings.Default.DefaultWeightUnit = DefaultWeightUnit;
                 Properties.Settings.Default.MaxHistoryRecords = MaxHistoryRecords;
                 Properties.Settings.Default.LogDatabaseOperations = LogDatabaseOperations;
-                Properties.Settings.Default.TableName = TableName;    
+                Properties.Settings.Default.TableName = TableName;
+                Properties.Settings.Default.Kantar = Kantar;
+                Properties.Settings.Default.Acklama = Acklama;
+                Properties.Settings.Default.Kullanici = Kullanici;
                 Properties.Settings.Default.Save();
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show($"خطأ في حفظ الإعدادات: {ex.Message}", 
+                System.Windows.Forms.MessageBox.Show($"خطأ في حفظ الإعدادات: {ex.Message}",
                     "خطأ", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
@@ -98,9 +104,9 @@ namespace WFApp_Electronic_Scale
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show($"خطأ في تحميل الإعدادات: {ex.Message}", 
+                System.Windows.Forms.MessageBox.Show($"خطأ في تحميل الإعدادات: {ex.Message}",
                     "خطأ", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
     }
-} 
+}

@@ -30,7 +30,16 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="TableName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Tartim2</Value>
+      <Value Profile="(Default)">Tartim1</Value>
+    </Setting>
+    <Setting Name="Kantar" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FWB 04</Value>
+    </Setting>
+    <Setting Name="Acklama" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Auto weighing</Value>
+    </Setting>
+    <Setting Name="Kullanici" Type="System.String" Scope="User">
+      <Value Profile="(Default)">IT user</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -133,13 +133,49 @@ namespace WFApp_Electronic_Scale.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Tartim2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Tartim1")]
         public string TableName {
             get {
                 return ((string)(this["TableName"]));
             }
             set {
                 this["TableName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("FWB 04")]
+        public string Kantar {
+            get {
+                return ((string)(this["Kantar"]));
+            }
+            set {
+                this["Kantar"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Auto weighing")]
+        public string Acklama {
+            get {
+                return ((string)(this["Acklama"]));
+            }
+            set {
+                this["Acklama"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("IT user")]
+        public string Kullanici {
+            get {
+                return ((string)(this["Kullanici"]));
+            }
+            set {
+                this["Kullanici"] = value;
             }
         }
     }
